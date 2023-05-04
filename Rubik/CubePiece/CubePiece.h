@@ -7,7 +7,7 @@ using std::string;
 
 class CubePiece {
 private:
-    //Если какую-то грань детали мы не будем видеть, то она останется чёрной
+    //If user don't see any of planes it will be black
     string up = "black";
     string down = "black";
     string left = "black";
@@ -15,12 +15,12 @@ private:
     string front = "black";
     string rear = "black";
 public:
-    //Конструкторы
+    //Constructors
     CubePiece() = default;
 
     explicit CubePiece (string up_, string down_, string left_, string right_, string front_, string rear_);
 
-    //Геттеры
+    //Getters
 
     string getUpColor();
 
@@ -34,7 +34,7 @@ public:
 
     string getRearColor();
 
-    //Сеттеры
+    //Setters
 
     void setUpColor(string color);
 

@@ -2,7 +2,7 @@
 #include <iostream>
 using std::string;
 
-//Конструктор
+//Constructor
 
 CubePiece::CubePiece(string up_, string down_, string left_, string right_, string front_, string rear_)  {
     this->up = std::move(up_);
@@ -13,7 +13,7 @@ CubePiece::CubePiece(string up_, string down_, string left_, string right_, stri
     this->rear = std::move(rear_);
 }
 
-//Геттеры
+//Getters
 
 string CubePiece::getUpColor() {return up;}
 
@@ -27,7 +27,7 @@ string CubePiece::getFrontColor() {return front;}
 
 string CubePiece::getRearColor() {return rear;}
 
-//Сеттеры
+//Setters
 
 void CubePiece::setUpColor(std::string color) {this->up = std::move(color);}
 
