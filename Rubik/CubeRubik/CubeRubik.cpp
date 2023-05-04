@@ -6,6 +6,13 @@ using std::istream, std::cin;
 
 CubeRubik::CubeRubik() {
     array.resize(3, vector<vector<CubePiece>>(3, vector<CubePiece>(3)));
+    rotatesCounter = 0;
+}
+
+//Getters of info
+
+int CubeRubik::getRotatesCounter() const {
+    return rotatesCounter;
 }
 
 //Implementation of the main function: generating, shuffling, solving etc.
@@ -19,7 +26,7 @@ void CubeRubik::generateRubikCube() {
             LeftPlane[i][j]->setLeftColor("O");
             RightPlane[i][j]->setRightColor("R");
             FrontPlane[i][j]->setFrontColor("B");
-            RearPlane[i][j]->setRearColor("G");
+            BackPlane[i][j]->setBackColor("G");
         }
     }
 }
@@ -60,7 +67,23 @@ void CubeRubik::readRubikCube(istream &inStream = cin) {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
-            RearPlane[i][j]->setRearColor(color);
+            BackPlane[i][j]->setBackColor(color);
         }
+    }
+}
+
+//Printing RubikCube in console or file
+void CubeRubik::printRubikCube(std::ostream &outStream) {
+
+}
+
+//Rotation of planes
+
+void CubeRubik::rotateUpPlane(bool clockwise) {
+    rotatesCounter++;
+    string tempUP00 = UpPlane[0][0]->getUpColor();
+    if (clockwise) {
+        UpPlane[0][0]->setUpColor(UpPlane[2][0]->getUpColor());
+        UpPlane[0][1]->setUpColor(UpPlane[1][0]->getUpColor());
     }
 }

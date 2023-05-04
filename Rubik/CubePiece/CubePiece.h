@@ -13,12 +13,12 @@ private:
     string left = "black";
     string right = "black";
     string front = "black";
-    string rear = "black";
+    string back = "black";
 public:
     //Constructors
     CubePiece() = default;
 
-    explicit CubePiece (string up_, string down_, string left_, string right_, string front_, string rear_);
+    explicit CubePiece (string up_, string down_, string left_, string right_, string front_, string back_);
 
     //Getters
 
@@ -32,7 +32,7 @@ public:
 
     string getFrontColor();
 
-    string getRearColor();
+    string getBackColor();
 
     //Setters
 
@@ -46,7 +46,7 @@ public:
 
     void setFrontColor(string color);
 
-    void setRearColor(string color);
+    void setBackColor(string color);
 };
 
 

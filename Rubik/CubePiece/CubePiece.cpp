@@ -4,13 +4,13 @@ using std::string;
 
 //Constructor
 
-CubePiece::CubePiece(string up_, string down_, string left_, string right_, string front_, string rear_)  {
+CubePiece::CubePiece(string up_, string down_, string left_, string right_, string front_, string back_)  {
     this->up = std::move(up_);
     this->down = std::move(down_);
     this->left = std::move(left_);
     this->right = std::move(right_);
     this->front = std::move(front_);
-    this->rear = std::move(rear_);
+    this->back = std::move(back_);
 }
 
 //Getters
@@ -25,7 +25,7 @@ string CubePiece::getRightColor() {return right;}
 
 string CubePiece::getFrontColor() {return front;}
 
-string CubePiece::getRearColor() {return rear;}
+string CubePiece::getBackColor() {return back;}
 
 //Setters
 
@@ -39,4 +39,4 @@ void CubePiece::setRightColor(std::string color) {this->right = std::move(color)
 
 void CubePiece::setFrontColor(std::string color) {this->front = std::move(color);}
 
-void CubePiece::setRearColor(std::string color) {this->rear = std::move(color);}
+void CubePiece::setBackColor(std::string color) {this->back = std::move(color);}
