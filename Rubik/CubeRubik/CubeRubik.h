@@ -49,12 +49,16 @@ public:
     void readRubikCube(istream &inStream = cin);
 
     //Printing RubikCube in console or file
-    void printRubikCube(ostream &outStream = cout);
+    void printRubikCube(ostream &outStream = cout) const;
 
 private:
 
-    //Rotations of planes
+    //Filling empty plane vectors
+    void fillPlane(Plane &plane);
 
+    void initPlanes();
+
+    //Rotations of planes
     void rotateUpPlane(bool clockwise);
 };
 

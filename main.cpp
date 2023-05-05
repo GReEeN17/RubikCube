@@ -1,6 +1,8 @@
 #include <iostream>
+#include "Rubik/CubeRubik/CubeRubik.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    CubeRubik cubeRubik;
+    cubeRubik.printRubikCube();
     return 0;
 }
