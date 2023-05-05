@@ -76,39 +76,39 @@ void CubeRubik::readRubikCube(istream &inStream) {
 
 //Printing RubikCube in console or file
 void CubeRubik::printRubikCube(std::ostream &outStream) const{
-    cout << "Развёртка Кубика Рубика:\n\n";
+    outStream << "Развёртка Кубика Рубика:\n\n";
     for (int i = 0; i < 3; i++) {
-        cout << "\t\t| ";
+        outStream << "\t\t| ";
         for (int j = 0; j < 3; j++) {
-            cout << LeftPlane[i][j]->getLeftColor() << " | ";
+            outStream << LeftPlane[i][j]->getLeftColor() << " | ";
         }
-        cout << "\n";
+        outStream << "\n";
     }
     for (int i = 0; i < 3; i++) {
-        cout << "| ";
+        outStream << "| ";
         for (int j = 0; j < 3; j++) {
-            cout << BackPlane[i][j]->getBackColor() << " | ";
+            outStream << BackPlane[i][j]->getBackColor() << " | ";
         }
-        cout << "* | ";
+        outStream << "* | ";
         for (int j = 0; j < 3; j++) {
-            cout << UpPlane[i][j]->getUpColor() << " | ";
+            outStream << UpPlane[i][j]->getUpColor() << " | ";
         }
-        cout << "* | ";
+        outStream << "* | ";
         for (int j = 0; j < 3; j++) {
-            cout << FrontPlane[i][j]->getFrontColor() << " | ";
+            outStream << FrontPlane[i][j]->getFrontColor() << " | ";
         }
-        cout << "* | ";
+        outStream << "* | ";
         for (int j = 0; j < 3; j++) {
             cout << DownPlane[i][j]->getDownColor() << " | ";
         }
-        cout << "\n";
+        outStream << "\n";
     }
     for (int i = 0; i < 3; i++) {
-        cout << "\t\t| ";
+        outStream << "\t\t| ";
         for (int j = 0; j < 3; j++) {
-            cout << RightPlane[i][j]->getRightColor() << " | ";
+            outStream << RightPlane[i][j]->getRightColor() << " | ";
         }
-        cout << "\n";
+        outStream << "\n";
     }
 }
 
