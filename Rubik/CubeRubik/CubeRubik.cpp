@@ -133,6 +133,7 @@ void CubeRubik::initPlanes() {
 }
 
 //Rotation of planes
+//Rotation of the up plane
 void CubeRubik::rotateUpPlane(bool clockwise) {
     rotatesCounter++;
     //Temps for rotating up colors of up plane
@@ -143,56 +144,68 @@ void CubeRubik::rotateUpPlane(bool clockwise) {
     string tempFront01 = FrontPlane[0][1]->getFrontColor();
     string tempFront02 = FrontPlane[0][2]->getFrontColor();
     if (clockwise) {
-        //Rotation colors of up plane clockwise
-        UpPlane[0][0]->setUpColor(UpPlane[2][0]->getUpColor());
-        UpPlane[0][1]->setUpColor(UpPlane[1][0]->getUpColor());
-        UpPlane[2][0]->setUpColor(UpPlane[2][2]->getUpColor());
-        UpPlane[2][1]->setUpColor(UpPlane[1][2]->getUpColor());
-        UpPlane[2][2]->setUpColor(UpPlane[0][2]->getUpColor());
-        UpPlane[1][2]->setUpColor(tempUp01);
-        UpPlane[0][2]->setUpColor(tempUp00);
-        //Rotation side colors of up plane clockwise
-        //Front side
-        FrontPlane[0][0]->setFrontColor(RightPlane[0][0]->getRightColor());
-        FrontPlane[0][1]->setFrontColor(RightPlane[0][1]->getRightColor());
-        FrontPlane[0][2]->setFrontColor(RightPlane[0][2]->getRightColor());
-        //Right side
-        RightPlane[0][0]->setRightColor(BackPlane[0][0]->getBackColor());
-        RightPlane[0][1]->setRightColor(BackPlane[0][1]->getBackColor());
-        RightPlane[0][2]->setRightColor(BackPlane[0][2]->getBackColor());
-        //Back side
-        BackPlane[0][0]->setBackColor(LeftPlane[0][0]->getLeftColor());
-        BackPlane[0][1]->setBackColor(LeftPlane[0][1]->getLeftColor());
-        BackPlane[0][2]->setBackColor(LeftPlane[0][2]->getLeftColor());
-        //Left side
-        LeftPlane[0][0]->setLeftColor(tempFront00);
-        LeftPlane[0][1]->setLeftColor(tempFront01);
-        LeftPlane[0][2]->setLeftColor(tempFront02);
+        rotateUpPlaneClock(tempUp00, tempUp01, tempFront00, tempFront01, tempFront02);
     } else {
-        //Rotation colors of up plane not clockwise
-        UpPlane[0][0]->setUpColor(UpPlane[0][2]->getUpColor());
-        UpPlane[0][1]->setUpColor(UpPlane[1][2]->getUpColor());
-        UpPlane[0][2]->setUpColor(UpPlane[2][2]->getUpColor());
-        UpPlane[1][2]->setUpColor(UpPlane[2][1]->getUpColor());
-        UpPlane[2][2]->setUpColor(UpPlane[2][0]->getUpColor());
-        UpPlane[2][1]->setUpColor(tempUp01);
-        UpPlane[2][0]->setUpColor(tempUp00);
-        //Rotation side colors of up plane clockwise
-        //Front side
-        FrontPlane[0][0]->setFrontColor(LeftPlane[0][0]->getLeftColor());
-        FrontPlane[0][1]->setFrontColor(LeftPlane[0][1]->getLeftColor());
-        FrontPlane[0][2]->setFrontColor(LeftPlane[0][2]->getLeftColor());
-        //Left side
-        LeftPlane[0][0]->setLeftColor(BackPlane[0][0]->getBackColor());
-        LeftPlane[0][1]->setLeftColor(BackPlane[0][1]->getBackColor());
-        LeftPlane[0][2]->setLeftColor(BackPlane[0][2]->getBackColor());
-        //Back side
-        BackPlane[0][0]->setBackColor(RightPlane[0][0]->getRightColor());
-        BackPlane[0][1]->setBackColor(RightPlane[0][1]->getRightColor());
-        BackPlane[0][2]->setBackColor(RightPlane[0][2]->getRightColor());
-        //Right side
-        RightPlane[0][0]->setRightColor(tempFront00);
-        RightPlane[0][1]->setRightColor(tempFront01);
-        RightPlane[0][2]->setRightColor(tempFront02);
+        rotateUpPlaneNotClock(tempUp00, tempUp01, tempFront00, tempFront01, tempFront02);
     }
+}
+
+//Rotation of the up plane clockwise
+void CubeRubik::rotateUpPlaneClock(std::string &up00, std::string &up01, std::string &front00, std::string &front01,
+                                       std::string &front02) {
+    //Rotation colors of up plane clockwise
+    UpPlane[0][0]->setUpColor(UpPlane[2][0]->getUpColor());
+    UpPlane[0][1]->setUpColor(UpPlane[1][0]->getUpColor());
+    UpPlane[2][0]->setUpColor(UpPlane[2][2]->getUpColor());
+    UpPlane[2][1]->setUpColor(UpPlane[1][2]->getUpColor());
+    UpPlane[2][2]->setUpColor(UpPlane[0][2]->getUpColor());
+    UpPlane[1][2]->setUpColor(up01);
+    UpPlane[0][2]->setUpColor(up00);
+    //Rotation side colors of up plane clockwise
+    //Front side
+    FrontPlane[0][0]->setFrontColor(RightPlane[0][0]->getRightColor());
+    FrontPlane[0][1]->setFrontColor(RightPlane[0][1]->getRightColor());
+    FrontPlane[0][2]->setFrontColor(RightPlane[0][2]->getRightColor());
+    //Right side
+    RightPlane[0][0]->setRightColor(BackPlane[0][0]->getBackColor());
+    RightPlane[0][1]->setRightColor(BackPlane[0][1]->getBackColor());
+    RightPlane[0][2]->setRightColor(BackPlane[0][2]->getBackColor());
+    //Back side
+    BackPlane[0][0]->setBackColor(LeftPlane[0][0]->getLeftColor());
+    BackPlane[0][1]->setBackColor(LeftPlane[0][1]->getLeftColor());
+    BackPlane[0][2]->setBackColor(LeftPlane[0][2]->getLeftColor());
+    //Left side
+    LeftPlane[0][0]->setLeftColor(front00);
+    LeftPlane[0][1]->setLeftColor(front01);
+    LeftPlane[0][2]->setLeftColor(front02);
+}
+
+//Rotation of the up plane not clockwise
+void CubeRubik::rotateUpPlaneNotClock(std::string &up00, std::string &up01, std::string &front00,
+                                          std::string &front01, std::string &front02) {
+    //Rotation colors of up plane not clockwise
+    UpPlane[0][0]->setUpColor(UpPlane[0][2]->getUpColor());
+    UpPlane[0][1]->setUpColor(UpPlane[1][2]->getUpColor());
+    UpPlane[0][2]->setUpColor(UpPlane[2][2]->getUpColor());
+    UpPlane[1][2]->setUpColor(UpPlane[2][1]->getUpColor());
+    UpPlane[2][2]->setUpColor(UpPlane[2][0]->getUpColor());
+    UpPlane[2][1]->setUpColor(up01);
+    UpPlane[2][0]->setUpColor(up00);
+    //Rotation side colors of up plane clockwise
+    //Front side
+    FrontPlane[0][0]->setFrontColor(LeftPlane[0][0]->getLeftColor());
+    FrontPlane[0][1]->setFrontColor(LeftPlane[0][1]->getLeftColor());
+    FrontPlane[0][2]->setFrontColor(LeftPlane[0][2]->getLeftColor());
+    //Left side
+    LeftPlane[0][0]->setLeftColor(BackPlane[0][0]->getBackColor());
+    LeftPlane[0][1]->setLeftColor(BackPlane[0][1]->getBackColor());
+    LeftPlane[0][2]->setLeftColor(BackPlane[0][2]->getBackColor());
+    //Back side
+    BackPlane[0][0]->setBackColor(RightPlane[0][0]->getRightColor());
+    BackPlane[0][1]->setBackColor(RightPlane[0][1]->getRightColor());
+    BackPlane[0][2]->setBackColor(RightPlane[0][2]->getRightColor());
+    //Right side
+    RightPlane[0][0]->setRightColor(front00);
+    RightPlane[0][1]->setRightColor(front01);
+    RightPlane[0][2]->setRightColor(front02);
 }
