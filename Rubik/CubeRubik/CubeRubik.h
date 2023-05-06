@@ -49,9 +49,9 @@ public:
     void readRubikCube(istream &inStream = cin);
 
     //Printing RubikCube in console or file
-    void printRubikCube(ostream &outStream = cout) const;
+    void printRubikCube(ostream &outStream = cout) const ;
 
-private:
+public:
 
     //Filling empty plane vectors
     void fillPlane(Plane &plane);
@@ -96,7 +96,7 @@ private:
     void rotateRightPlaneClock(string& right00, string& right01, string& front02, string& front12, string& front22);
 
     //Rotation of the right plane not clockwise
-    void rotateRigthPlaneNotClock(string& right00, string& right01, string& front02, string& front12, string& front22);
+    void rotateRightPlaneNotClock(string& right00, string& right01, string& front02, string& front12, string& front22);
 
 
     //Rotation of the front plane
@@ -113,7 +113,7 @@ private:
     void rotateBackPlane(bool clockwise);
 
     //Rotation of the back plane clockwise
-    void rotateBackPlaneClock(string& back00, string& back01, string& up00, string up01, string up02);
+    void rotateBackPlaneClock(string& back00, string& back01, string& up00, string& up01, string& up02);
 
     //Rotation of the back plane not clockwise
     void rotateBackPlaneNotClock(string& back00, string& back01, string& up00, string& up01, string& up02);
