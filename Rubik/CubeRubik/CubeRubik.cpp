@@ -167,7 +167,7 @@ void CubeRubik::initPlanes() {
 }
 
 //Checking if cube is correct
-bool CubeRubik::checkCubeIsCorrect() {
+bool CubeRubik::checkCubeIsCorrect() const {
     //Checking if amount of colors is correct
     unsigned char amountYellow = 0;
     unsigned char amountWhite = 0;
@@ -207,7 +207,7 @@ bool CubeRubik::checkCubeIsCorrect() {
 
 //Helping function for checking is Cube correct
 void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsigned char &orange, unsigned char &red,
-                              unsigned char &blue, unsigned char &green, const string& color) {
+                              unsigned char &blue, unsigned char &green, const string& color) const {
     if (color == "Y") {
         yellow++;
     } else if (color == "W") {

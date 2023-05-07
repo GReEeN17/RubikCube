@@ -62,11 +62,11 @@ private:
     void initPlanes();
 
     //Checking if cube is correct
-    bool checkCubeIsCorrect();
+    bool checkCubeIsCorrect() const;
 
     //Helping function for checking is Cube correct
     void increaseColor(unsigned char& yellow, unsigned char& white, unsigned char& orange, unsigned char& red,
-                       unsigned char& blue, unsigned char& green, const string& color);
+                       unsigned char& blue, unsigned char& green, const string& color) const;
 
     //Make numerous rotations
     void rotatePlanes(string& rotations);
