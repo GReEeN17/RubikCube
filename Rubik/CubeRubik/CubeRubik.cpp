@@ -173,10 +173,10 @@ void CubeRubik::rotatePlanes(string& rotations) {
             rotateUpPlane(rotations[i + 1] != '\'');
         } else if (rotations[i] == 'D') {
             rotateDownPlane(rotations[i + 1] != '\'');
-        } else if (rotations[i] == 'L') {˚
+        } else if (rotations[i] == 'L') {
             rotateLeftPlane(rotations[i + 1] != '\'');
         } else if (rotations[i] == 'R') {
-            rotateLeftPlane(rotations[i + 1] != '\'');
+            rotateRightPlane(rotations[i + 1] != '\'');
         } else if (rotations[i] == 'F') {
             rotateFrontPlane(rotations[i + 1] != '\'');
         } else if (rotations[i] == 'B') {
