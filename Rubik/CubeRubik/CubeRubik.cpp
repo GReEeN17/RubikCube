@@ -1,7 +1,7 @@
 #include "CubeRubik.h"
 #include <iostream>
 
-using std::istream, std::cin;
+using std::istream, std::cin, std::ostream, std::string;
 
 //Constructor
 
@@ -76,7 +76,7 @@ void CubeRubik::readRubikCube(istream &inStream) {
 }
 
 //Printing RubikCube in console or file
-void CubeRubik::printRubikCube(std::ostream &outStream) const {
+void CubeRubik::printRubikCube(ostream &outStream) const {
     outStream << "\n\nРазвёртка Кубика Рубика:\n\n";
     for (int i = 0; i < 3; i++) {
         outStream << "\t\t| ";
@@ -164,6 +164,25 @@ void CubeRubik::initPlanes() {
     fillPlane(RightPlane);
     fillPlane(FrontPlane);
     fillPlane(BackPlane);
+}
+
+//Make numerous rotations
+void CubeRubik::rotatePlanes(string& rotations) {
+    for (int i = 0; i < rotations.size(); i += 2) {
+        if (rotations[i] == 'U') {
+            rotateUpPlane(rotations[i + 1] != '\'');
+        } else if (rotations[i] == 'D') {
+            rotateDownPlane(rotations[i + 1] != '\'');
+        } else if (rotations[i] == 'L') {˚
+            rotateLeftPlane(rotations[i + 1] != '\'');
+        } else if (rotations[i] == 'R') {
+            rotateLeftPlane(rotations[i + 1] != '\'');
+        } else if (rotations[i] == 'F') {
+            rotateFrontPlane(rotations[i + 1] != '\'');
+        } else if (rotations[i] == 'B') {
+            rotateBackPlane(rotations[i + 1] != '\'');
+        }
+    }
 }
 
 //Rotation of planes

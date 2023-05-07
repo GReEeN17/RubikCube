@@ -61,6 +61,9 @@ private:
 
     void initPlanes();
 
+    //Make numerous rotations
+    void rotatePlanes(string& rotations);
+
     //Rotations of planes
     //Rotation of the up plane
     void rotateUpPlane(bool clockwise);
