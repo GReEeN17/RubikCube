@@ -51,7 +51,10 @@ public:
     //Printing RubikCube in console or file
     void printRubikCube(ostream &outStream = cout) const ;
 
-public:
+    //Shuffling Rubik's Cube
+    void shuffle();
+
+private:
 
     //Filling empty plane vectors
     void fillPlane(Plane &plane);

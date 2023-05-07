@@ -1,4 +1,5 @@
 #include "CubeRubik.h"
+#include <iostream>
 
 using std::istream, std::cin;
 
@@ -76,7 +77,7 @@ void CubeRubik::readRubikCube(istream &inStream) {
 
 //Printing RubikCube in console or file
 void CubeRubik::printRubikCube(std::ostream &outStream) const {
-    outStream << "\nРазвёртка Кубика Рубика:\n\n";
+    outStream << "\n\nРазвёртка Кубика Рубика:\n\n";
     for (int i = 0; i < 3; i++) {
         outStream << "\t\t| ";
         for (int j = 0; j < 3; j++) {
@@ -109,6 +110,39 @@ void CubeRubik::printRubikCube(std::ostream &outStream) const {
             outStream << DownPlane[i][j]->getDownColor() << " | ";
         }
         outStream << "\n";
+    }
+}
+
+//Shuffling Rubik's Cube
+void CubeRubik::shuffle() {
+    cout << "\n\nShuffling Rubik's Cube, rotations:\n\n";
+    for (int i = 0;  i < 30; i++) {
+        //Choosing plane
+        int randPlane = rand() % 6;
+        //Choosing how to rotate
+        bool randClock = rand() % 2 == 0;
+        switch (randPlane) {
+            case(0):
+                rotateUpPlane(randClock);
+                break;
+            case(1):
+                rotateDownPlane(randClock);
+                break;
+            case(2):
+                rotateLeftPlane(randClock);
+                break;
+            case(3):
+                rotateRightPlane(randClock);
+                break;
+            case (4):
+                rotateFrontPlane(randClock);
+                break;
+            case(5):
+                rotateBackPlane(randClock);
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -145,8 +179,10 @@ void CubeRubik::rotateUpPlane(bool clockwise) {
     string tempFront02 = FrontPlane[0][2]->getFrontColor();
     //Checking how to rotate up plane and calling the corresponding function
     if (clockwise) {
+        cout << "U ";
         rotateUpPlaneClock(tempUp00, tempUp01, tempFront00, tempFront01, tempFront02);
     } else {
+        cout << "U' ";
         rotateUpPlaneNotClock(tempUp00, tempUp01, tempFront00, tempFront01, tempFront02);
     }
 }
@@ -224,8 +260,10 @@ void CubeRubik::rotateDownPlane(bool clockwise) {
     string tempFront22 = FrontPlane[2][2]->getFrontColor();
     //Checking how to rotate down plane and calling the corresponding function
     if (clockwise) {
+        cout << "D ";
         rotateDownPlaneClock(tempDown00, tempDown01, tempFront20, tempFront21, tempFront22);
     } else {
+        cout << "D' ";
         rotateDownPlaneNotClock(tempDown00, tempDown01, tempFront20, tempFront21, tempFront22);
     }
 }
@@ -302,8 +340,10 @@ void CubeRubik::rotateLeftPlane(bool clockwise) {
     string tempFront20 = FrontPlane[2][0]->getFrontColor();
     //Checking how to rotate left plane and calling the corresponding function
     if (clockwise) {
+        cout << "L ";
         rotateLeftPlaneClock(tempLeft00, tempLeft01, tempFront00, tempFront10, tempFront20);
     } else {
+        cout << "L' ";
         rotateLeftPlaneNotClock(tempLeft00, tempLeft01, tempFront00, tempFront10, tempFront20);
     }
 }
@@ -380,8 +420,10 @@ void CubeRubik::rotateRightPlane(bool clockwise) {
     string tempFront22 = FrontPlane[2][2]->getFrontColor();
     //Checking how to rotate right plane and calling the corresponding function
     if (clockwise) {
+        cout << "R ";
         rotateRightPlaneClock(tempRight00, tempRight01, tempFront02, tempFront12, tempFront22);
     } else {
+        cout << "R' ";
         rotateRightPlaneNotClock(tempRight00, tempRight01, tempFront02, tempFront12, tempFront22);
     }
 }
@@ -458,8 +500,10 @@ void CubeRubik::rotateFrontPlane(bool clockwise) {
     string tempUp22 = UpPlane[2][2]->getUpColor();
     //Checking how to rotate front plane and calling the corresponding function
     if (clockwise) {
+        cout << "F ";
         rotateFrontPlaneClock(tempFront00, tempFront01, tempUp20, tempUp21, tempUp22);
     } else {
+        cout << "F' ";
         rotateFrontPlaneNotClock(tempFront00, tempFront01, tempUp20, tempUp21, tempUp22);
     }
 }
@@ -536,8 +580,10 @@ void CubeRubik::rotateBackPlane(bool clockwise) {
     string tempUp02 = UpPlane[0][2]->getUpColor();
     //Checking how to rotate back plane and calling the corresponding function
     if (clockwise) {
+        cout << "B ";
         rotateBackPlaneClock(tempBack00, tempBack01, tempUp00, tempUp01, tempUp02);
     } else {
+        cout << "B' ";
         rotateBackPlaneNotClock(tempBack00, tempBack01, tempUp00, tempUp01, tempUp02);
     }
 }
