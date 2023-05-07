@@ -166,6 +166,63 @@ void CubeRubik::initPlanes() {
     fillPlane(BackPlane);
 }
 
+//Checking if cube is correct
+bool CubeRubik::checkCubeIsCorrect() {
+    //Checking if amount of colors is correct
+    unsigned char amountYellow = 0;
+    unsigned char amountWhite = 0;
+    unsigned char amountOrange = 0;
+    unsigned char amountRed = 0;
+    unsigned char amountBlue = 0;
+    unsigned char amountGreen = 0;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            increaseColor(amountYellow, amountWhite, amountOrange, amountRed, amountBlue, amountGreen,
+                          UpPlane[i][j]->getUpColor());
+            increaseColor(amountYellow, amountWhite, amountOrange, amountRed, amountBlue, amountGreen,
+                          DownPlane[i][j]->getDownColor());
+            increaseColor(amountYellow, amountWhite, amountOrange, amountRed, amountBlue, amountGreen,
+                          LeftPlane[i][j]->getLeftColor());
+            increaseColor(amountYellow, amountWhite, amountOrange, amountRed, amountBlue, amountGreen,
+                          RightPlane[i][j]->getRightColor());
+            increaseColor(amountYellow, amountWhite, amountOrange, amountRed, amountBlue, amountGreen,
+                          FrontPlane[i][j]->getFrontColor());
+            increaseColor(amountYellow, amountWhite, amountOrange, amountRed, amountBlue, amountGreen,
+                          BackPlane[i][j]->getBackColor());
+        }
+    }
+    bool amountColors = amountYellow == 9 && amountWhite == 9 && amountOrange == 9 && amountRed == 9 && amountBlue == 9
+            && amountGreen == 9;
+    bool yellowWhiteCheck = ((UpCenter == "Y") && (DownCenter == "W") || (DownCenter == "Y") && (UpCenter == "W")||
+            (LeftCenter == "Y") && (RightCenter == "W") || (RightCenter == "Y") && (LeftCenter == "W") ||
+            (FrontCenter == "Y") && (BackCenter == "W") || (BackCenter == "Y") && (FrontCenter == "W"));
+    bool orangeRedCheck = ((UpCenter == "O") && (DownCenter == "R") || (DownCenter == "O") && (UpCenter == "R")||
+            (LeftCenter == "O") && (RightCenter == "R") || (RightCenter == "O") && (LeftCenter == "R") ||
+            (FrontCenter == "O") && (BackCenter == "R") || (BackCenter == "O") && (FrontCenter == "R"));
+    bool blueGreenCheck = ((UpCenter == "B") && (DownCenter == "G") || (DownCenter == "B") && (UpCenter == "G")||
+            (LeftCenter == "B") && (RightCenter == "G") || (RightCenter == "B") && (LeftCenter == "G") ||
+            (FrontCenter == "B") && (BackCenter == "G") || (BackCenter == "B") && (FrontCenter == "G"));
+    return amountColors && yellowWhiteCheck && orangeRedCheck && blueGreenCheck;
+}
+
+//Helping function for checking is Cube correct
+void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsigned char &orange, unsigned char &red,
+                              unsigned char &blue, unsigned char &green, const string& color) {
+    if (color == "Y") {
+        yellow++;
+    } else if (color == "W") {
+        white++;
+    } else if (color == "O") {
+        orange++;
+    } else if (color == "R") {
+        red++;
+    } else if (color == "B") {
+        blue++;
+    } else if (color == "G") {
+        green++;
+    }
+}
+
 //Make numerous rotations
 void CubeRubik::rotatePlanes(string& rotations) {
     for (int i = 0; i < rotations.size(); i += 2) {

@@ -8,12 +8,12 @@
 using std::vector, std::istream, std::cin, std::cout, std::ostream;
 
 #define Plane vector<vector<CubePiece*>>
-#define UpCenter UpPlane[1][1]->getUpColor();
-#define DownCenter DownPlane[1][1]->getDownColor();
-#define LeftCenter LeftPlane[1][1]->getLeftColor();
-#define RightCenter RightPlane[1][1]->getRightColor();
-#define FrontCenter FrontPlane[1][1]->getFrontColor();
-#define BackCenter BackPlane[1][1]->getBackColor();
+#define UpCenter UpPlane[1][1]->getUpColor()
+#define DownCenter DownPlane[1][1]->getDownColor()
+#define LeftCenter LeftPlane[1][1]->getLeftColor()
+#define RightCenter RightPlane[1][1]->getRightColor()
+#define FrontCenter FrontPlane[1][1]->getFrontColor()
+#define BackCenter BackPlane[1][1]->getBackColor()
 
 class CubeRubik {
 private:
@@ -60,6 +60,13 @@ private:
     void fillPlane(Plane &plane);
 
     void initPlanes();
+
+    //Checking if cube is correct
+    bool checkCubeIsCorrect();
+
+    //Helping function for checking is Cube correct
+    void increaseColor(unsigned char& yellow, unsigned char& white, unsigned char& orange, unsigned char& red,
+                       unsigned char& blue, unsigned char& green, const string& color);
 
     //Make numerous rotations
     void rotatePlanes(string& rotations);
