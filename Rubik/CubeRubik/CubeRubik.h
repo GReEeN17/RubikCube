@@ -52,7 +52,7 @@ public:
     void printRubikCube(ostream &outStream = cout) const ;
 
     //Shuffling Rubik's Cube
-    void shuffle();
+    void shuffle(int rotations = 30);
 
 private:
 
@@ -68,8 +68,15 @@ private:
     void increaseColor(unsigned char& yellow, unsigned char& white, unsigned char& orange, unsigned char& red,
                        unsigned char& blue, unsigned char& green, const string& color) const;
 
+    //Checking if steps are completed
+    //Checking if first step completed
+    [[nodiscard]] bool isFirstStepCompleted();
+public:
+    //First step of solving Rubik's Cube
+    void firstStep();
+private:
     //Make numerous rotations
-    void rotatePlanes(string& rotations);
+    void rotatePlanes(string rotations);
 
     //Rotations of planes
     //Rotation of the up plane

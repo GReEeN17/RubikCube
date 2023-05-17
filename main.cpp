@@ -6,5 +6,7 @@ int main() {
     cubeRubik.printRubikCube();
     cubeRubik.shuffle();
     cubeRubik.printRubikCube();
+    cubeRubik.firstStep();
+    cubeRubik.printRubikCube();
     return 0;
 }
