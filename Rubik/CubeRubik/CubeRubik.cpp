@@ -241,7 +241,83 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
 
 //Checking if second step is completed
 [[nodiscard]] bool CubeRubik::isSecondStepCompleted() {
-    return true;
+    bool firstCompleted = isFirstStepCompleted();
+    bool downCompleted = DownPlane[0][0]->getDownColor() == DownCenter && DownPlane[0][2]->getDownColor() == DownCenter
+            && DownPlane[2][0]->getDownColor() == DownCenter && DownPlane[2][2]->getDownColor() == DownCenter;
+    bool frontCompleted = FrontPlane[2][0]->getFrontColor() == FrontCenter && FrontPlane[2][2]->getFrontColor() == FrontCenter;
+    bool rightCompleted = RightPlane[2][0]->getRightColor() == RightCenter && RightPlane[2][2]->getRightColor() == RightCenter;
+    bool backCompleted = BackPlane[2][0]->getBackColor() == BackCenter && BackPlane[2][2]->getBackColor() == BackCenter;
+    bool leftCompleted = LeftPlane[2][0]->getLeftColor() == LeftCenter && LeftPlane[2][2]->getLeftColor() == LeftCenter;
+    return firstCompleted && downCompleted && frontCompleted && rightCompleted && backCompleted && leftCompleted;
+}
+
+//Checking if third step completed
+[[nodiscard]] bool CubeRubik::isThirdStepCompleted() {
+    bool secondCompleted = isSecondStepCompleted();
+    bool frontCompleted = FrontPlane[1][0]->getFrontColor() == FrontCenter && FrontPlane[1][2]->getFrontColor() == FrontCenter;
+    bool rightCompleted = RightPlane[1][0]->getRightColor() == RightCenter && RightPlane[1][2]->getRightColor() == RightCenter;
+    bool backCompleted = BackPlane[1][0]->getBackColor() == BackCenter && BackPlane[1][2]->getBackColor() == BackCenter;
+    bool leftCompleted = LeftPlane[1][0]->getLeftColor() == LeftCenter && LeftPlane[1][2]->getLeftColor() == LeftCenter;
+    return secondCompleted && frontCompleted && rightCompleted && backCompleted && leftCompleted;
+}
+
+//Checking if fourth step completed
+[[nodiscard]] bool CubeRubik::isFourthStepCompleted() {
+    bool thirdCompleted = isThirdStepCompleted();
+    bool upCompleted = UpPlane[0][1]->getUpColor() == UpCenter && UpPlane[1][0]->getUpColor() == UpCenter &&
+            UpPlane[1][2]->getUpColor() == UpCenter && UpPlane[2][1]->getUpColor() == UpCenter;
+    return thirdCompleted && upCompleted;
+}
+
+//Checking if fifth step completed
+[[nodiscard]] bool CubeRubik::isFifthStepCompleted() {
+    bool fourthCompleted = isFourthStepCompleted();
+    //Checking if upper angles are correct
+    bool frontLeftCompleted = (FrontPlane[0][0]->getFrontColor() == FrontCenter || FrontPlane[0][0]->getUpColor() ==
+            LeftCenter || FrontPlane[0][0]->getFrontColor() == UpCenter) && (LeftPlane[0][2]->getLeftColor() ==
+                    LeftCenter || LeftPlane[0][2]->getLeftColor() == FrontCenter || LeftPlane[0][2]->getLeftColor()
+                    == UpCenter) && (UpPlane[2][0]->getUpColor() == UpCenter || UpPlane[2][0]->getUpColor()
+                            == FrontCenter || UpPlane[2][0]->getUpColor() == LeftCenter);
+    bool frontRightCompleted = (FrontPlane[0][2]->getFrontColor() == FrontCenter || FrontPlane[0][2]->getFrontColor()
+            == RightCenter || FrontPlane[0][2]->getFrontColor() == UpCenter) && (RightPlane[0][0]->getRightColor()
+                    == RightCenter || RightPlane[0][0]->getRightColor() == FrontCenter ||
+                    RightPlane[0][0]->getRightColor() == UpCenter) && (UpPlane[2][2]->getUpColor() == UpCenter ||
+                            UpPlane[2][2]->getUpColor() == FrontCenter || UpPlane[2][2]->getUpColor() == RightCenter);
+    bool backLeftCompleted = (BackPlane[0][2]->getBackColor() == BackCenter || BackPlane[0][2]->getBackColor() ==
+            LeftCenter || BackPlane[0][2]->getBackColor() == UpCenter) && (LeftPlane[0][0]->getLeftColor() == LeftCenter
+                    || LeftPlane[0][0]->getLeftColor() == BackCenter || LeftPlane[0][0]->getLeftColor() == UpCenter) &&
+                            (UpPlane[0][0]->getUpColor() == UpCenter || UpPlane[0][0]->getUpColor() == BackCenter ||
+                            UpPlane[0][0]->getUpColor() == LeftCenter);
+    bool backRightCompleted = (BackPlane[0][0]->getBackColor() == BackCenter || BackPlane[0][0]->getBackColor() ==
+            RightCenter || BackPlane[0][0]->getBackColor() == UpCenter) && (RightPlane[0][2]->getRightColor() ==
+                    RightCenter || RightPlane[0][2]->getRightColor() == BackCenter || RightPlane[0][2]->getRightColor()
+                    == UpCenter) && (UpPlane[0][2]->getUpColor() == UpCenter && UpPlane[0][2]->getUpColor() ==
+                            BackCenter || UpPlane[0][2]->getUpColor() == RightCenter);
+    return fourthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
+}
+
+[[nodiscard]] bool CubeRubik::isSixthStepCompleted() {
+    bool fifthCompleted = isFifthStepCompleted();
+    //Checking if angles correct
+    bool frontLeftCompleted = FrontPlane[0][0]->getFrontColor() == FrontCenter && LeftPlane[0][2]->getLeftColor()
+            == LeftCenter && UpPlane[2][0]->getUpColor() == UpCenter;
+    bool frontRightCompleted = FrontPlane[0][2]->getFrontColor() == FrontCenter && RightPlane[0][0]->getRightColor()
+            == RightCenter && UpPlane[2][2]->getUpColor() == UpCenter;
+    bool backLeftCompleted = BackPlane[0][2]->getBackColor() == BackCenter && LeftPlane[0][0]->getLeftColor() ==
+            LeftCenter && UpPlane[0][0]->getUpColor() == UpCenter;
+    bool backRightCompleted = BackPlane[0][0]->getBackColor() == BackCenter && RightPlane[0][2]->getRightColor() ==
+            RightCenter && UpPlane[0][2]->getUpColor() == UpCenter;
+    return fifthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
+}
+
+[[nodiscard]] bool CubeRubik::isSeventhStepCompleted() {
+    bool sixthCompleted = isSixthStepCompleted();
+    //Checking if up middle pieces are correct;
+    bool frontCompleted = FrontPlane[0][1]->getFrontColor() == FrontCenter && UpPlane[2][1]->getUpColor() == UpCenter;
+    bool rightCompleted = RightPlane[0][1]->getRightColor() == RightCenter && UpPlane[1][2]->getUpColor() == UpCenter;
+    bool backCompleted = BackPlane[0][1]->getBackColor() == BackCenter && UpPlane[0][1]->getUpColor() == UpCenter;
+    bool leftCompleted = LeftPlane[0][1]->getLeftColor() == LeftCenter && UpPlane[1][0]->getUpColor() == UpCenter;
+    return sixthCompleted && frontCompleted && rightCompleted && backCompleted && leftCompleted;
 }
 
 //First step of solving Rubik's Cube

@@ -74,10 +74,25 @@ private:
 
     //Checking if second step completed
     [[nodiscard]] bool isSecondStepCompleted();
-public:
+
+    //Checking if third step completed
+    [[nodiscard]] bool isThirdStepCompleted();
+
+    //Checking if fourth step completed
+    [[nodiscard]] bool isFourthStepCompleted();
+
+    //Checking if fifth step completed
+    [[nodiscard]] bool isFifthStepCompleted();
+
+    //Checking if sixth step completed
+    [[nodiscard]] bool isSixthStepCompleted();
+
+    //Checking if seventh step completed
+    [[nodiscard]] bool isSeventhStepCompleted();
+
     //First step of solving Rubik's Cube
     void firstStep();
-private:
+
     //Make numerous rotations
     void rotatePlanes(string rotations);
 
