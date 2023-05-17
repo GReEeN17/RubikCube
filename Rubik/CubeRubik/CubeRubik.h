@@ -71,6 +71,9 @@ private:
     //Checking if steps are completed
     //Checking if first step completed
     [[nodiscard]] bool isFirstStepCompleted();
+
+    //Checking if second step completed
+    [[nodiscard]] bool isSecondStepCompleted();
 public:
     //First step of solving Rubik's Cube
     void firstStep();

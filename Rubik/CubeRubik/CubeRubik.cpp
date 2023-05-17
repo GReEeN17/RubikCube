@@ -1,7 +1,8 @@
 #include "CubeRubik.h"
 #include <iostream>
+#include <random>
 
-using std::istream, std::cin, std::ostream, std::string;
+using std::istream, std::cin, std::ostream, std::string, std::random_device, std::mt19937, std::uniform_int_distribution;
 
 //Constructor
 
@@ -117,10 +118,13 @@ void CubeRubik::printRubikCube(ostream &outStream) const {
 void CubeRubik::shuffle(int rotations) {
     cout << "\n\nShuffling Rubik's Cube, rotations:\n\n";
     for (int i = 0;  i < rotations; i++) {
+        random_device rd;
+        mt19937 mt(rd());
+        uniform_int_distribution<int> randInt(0, 6);
         //Choosing plane
-        int randPlane = rand() % 6;
+        int randPlane = randInt(mt);
         //Choosing how to rotate
-        bool randClock = rand() % 2 == 0;
+        bool randClock = randInt(mt) % 2 == 0;
         switch (randPlane) {
             case(0):
                 rotateUpPlane(randClock);
@@ -235,6 +239,11 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
     return downCompleted && frontCompleted && rightCompleted && backCompleted && leftCompleted;
 }
 
+//Checking if second step is completed
+[[nodiscard]] bool CubeRubik::isSecondStepCompleted() {
+    return true;
+}
+
 //First step of solving Rubik's Cube
 void CubeRubik::firstStep() {
     int count = 0;
@@ -325,27 +334,27 @@ void CubeRubik::firstStep() {
             count = 0;
             continue;
         }
-        if (RightPlane[2][1]->getRightColor() == RightCenter ||
+        if (RightPlane[2][1]->getRightColor() == DownCenter ||
             (DownPlane[1][2]->getDownColor() == DownCenter && RightPlane[2][1]->getRightColor() != RightCenter)) {
             rotatePlanes("R R U'R R ");
             count = 0;
             continue;
         }
-        if (BackPlane[2][1]->getBackColor() == BackCenter ||
+        if (BackPlane[2][1]->getBackColor() == DownCenter ||
             (DownPlane[2][1]->getDownColor() == DownCenter && BackPlane[2][1]->getBackColor() != BackCenter)) {
             rotatePlanes("B B U'B B ");
             count = 0;
             continue;
         }
         if (LeftPlane[2][1]->getLeftColor() == DownCenter ||
-            (DownPlane[1][0]->getDownColor() != DownCenter && LeftPlane[2][1]->getLeftColor() != LeftCenter)) {
+            (DownPlane[1][0]->getDownColor() == DownCenter && LeftPlane[2][1]->getLeftColor() != LeftCenter)) {
             rotatePlanes("L L U'L L ");
             count = 0;
             continue;
         }
         if (!isFirstStepCompleted() && count < 4) {
             count++;
-            rotatePlanes("U' ");
+            rotatePlanes("U ");
         } else if (!isFirstStepCompleted() && count >= 4) {
             shuffle(3);
             count = 0;
