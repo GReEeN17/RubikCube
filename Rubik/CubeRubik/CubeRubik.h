@@ -93,6 +93,9 @@ private:
     //First step of solving Rubik's Cube
     void firstStep();
 
+    //Second step of solving Rubik's Cube
+    void secondStep();
+
     //Make numerous rotations
     void rotatePlanes(string rotations);
 

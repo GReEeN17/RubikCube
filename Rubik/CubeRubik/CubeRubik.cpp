@@ -296,6 +296,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
     return fourthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
 }
 
+//Checking if sixth step completed
 [[nodiscard]] bool CubeRubik::isSixthStepCompleted() {
     bool fifthCompleted = isFifthStepCompleted();
     //Checking if angles correct
@@ -310,6 +311,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
     return fifthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
 }
 
+//Checking if seventh step completed
 [[nodiscard]] bool CubeRubik::isSeventhStepCompleted() {
     bool sixthCompleted = isSixthStepCompleted();
     //Checking if up middle pieces are correct;
@@ -435,6 +437,162 @@ void CubeRubik::firstStep() {
             shuffle(3);
             count = 0;
         }
+    }
+}
+
+//Second step of solving Rubik's Cube
+void CubeRubik::secondStep() {
+    int count = 0;
+    for (int i = 0; i < 128 && !isSecondStepCompleted(); i++) {
+        if (FrontPlane[0][2]->getFrontColor() == FrontCenter && RightPlane[0][0]->getRightColor() == DownCenter
+            && UpPlane[2][2]->getUpColor() == RightCenter) {
+            rotatePlanes("R U R'");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[0][2]->getRightColor() == RightCenter && BackPlane[0][0]->getBackColor() == DownCenter
+            && UpPlane[0][2]->getUpColor() == BackCenter) {
+            rotatePlanes("B U B'");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[0][2]->getBackColor() == BackCenter && LeftPlane[0][0]->getLeftColor() == DownCenter
+            && UpPlane[0][0]->getUpColor() == LeftCenter) {
+            rotatePlanes("L U L'");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[0][2]->getLeftColor() == LeftCenter && FrontPlane[0][0]->getFrontColor() == DownCenter
+            && UpPlane[2][0]->getUpColor() == FrontCenter) {
+            rotatePlanes("F U F'");
+            count = 0;
+            continue;
+        }
+        if (FrontPlane[2][2]->getFrontColor() == RightCenter && RightPlane[2][0]->getRightColor() == DownCenter
+            && DownPlane[0][2]->getDownColor() == FrontCenter) {
+            rotatePlanes("R U R'U'R U R'");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[2][2]->getRightColor() == BackCenter && BackPlane[2][0]->getBackColor() == DownCenter
+            && DownPlane[2][2]->getDownColor() == RightCenter) {
+            rotatePlanes("B U B'U'B U B'");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[2][2]->getBackColor() == LeftCenter && LeftPlane[2][0]->getLeftColor() == DownCenter
+            && DownPlane[2][0]->getDownColor() == BackCenter) {
+            rotatePlanes("L U L'U'L U L'");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[2][2]->getLeftColor() == FrontCenter && FrontPlane[2][0]->getFrontColor() == DownCenter
+            && DownPlane[0][0]->getDownColor() == LeftCenter) {
+            rotatePlanes("F U F'U'F U F'");
+            count = 0;
+            continue;
+        }
+        if (FrontPlane[0][2]->getFrontColor() == RightCenter && RightPlane[0][0]->getRightColor() == FrontCenter
+            && UpPlane[2][2]->getUpColor() == DownCenter) {
+            rotatePlanes("R U R'U'R U R'U'R U R'");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[0][2]->getRightColor() == BackCenter && BackPlane[0][0]->getBackColor() == RightCenter
+            && UpPlane[0][2]->getUpColor() == DownCenter) {
+            rotatePlanes("B U B'U'B U B'U'B U B'");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[0][2]->getBackColor() == LeftCenter && LeftPlane[0][0]->getLeftColor() == BackCenter
+            && UpPlane[0][0]->getUpColor() == DownCenter) {
+            rotatePlanes("L U L'U'L U L'U'L U L'");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[0][2]->getLeftColor() == FrontCenter && FrontPlane[0][0]->getFrontColor() == LeftCenter
+            && UpPlane[2][0]->getUpColor() == DownCenter) {
+            rotatePlanes("F U F'U'F U F'U'F U F'");
+            count = 0;
+            continue;
+        }
+        if (FrontPlane[2][2]->getFrontColor() == DownCenter && RightPlane[2][0]->getRightColor() == FrontCenter
+            && DownPlane[0][2]->getDownColor() == RightCenter) {
+            rotatePlanes("R U R'U'R U R'U'R U R'U'R U R'");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[2][2]->getRightColor() == DownCenter && BackPlane[2][0]->getBackColor() == RightCenter
+            && DownPlane[2][2]->getDownColor() == BackCenter) {
+            rotatePlanes("B U B'U'B U B'U'B U B'U'B U B'");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[2][2]->getBackColor() == DownCenter && LeftPlane[2][0]->getLeftColor() == BackCenter
+            && DownPlane[2][0]->getDownColor() == LeftCenter) {
+            rotatePlanes("L U L'U'L U L'U'L U L'U'L U L'");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[2][2]->getLeftColor() == DownCenter && FrontPlane[2][0]->getFrontColor() == LeftCenter
+            && DownPlane[0][0]->getDownColor() == FrontCenter) {
+            rotatePlanes("F U F'U'F U F'U'F U F'U'F U F'");
+            count = 0;
+            continue;
+        }
+        if (FrontPlane[0][2]->getFrontColor() == DownCenter && RightPlane[0][0]->getRightColor() == RightCenter
+            && UpPlane[2][2]->getUpColor() == FrontCenter) {
+            rotatePlanes("R U R'U'R U R'U'R U R'U'R U R'U'R U R'");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[0][2]->getRightColor() == DownCenter && BackPlane[0][0]->getBackColor() == BackCenter
+            && UpPlane[0][2]->getUpColor() == RightCenter) {
+            rotatePlanes("B U B'U'B U B'U'B U B'U'B U B'U'B U B'");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[0][2]->getBackColor() == DownCenter && LeftPlane[0][0]->getLeftColor() == LeftCenter
+            && UpPlane[0][0]->getUpColor() == BackCenter) {
+            rotatePlanes("L U L'U'L U L'U'L U L'U'L U L'U'L U L'");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[0][2]->getLeftColor() == DownCenter && FrontPlane[0][0]->getFrontColor() == FrontCenter
+            && UpPlane[2][0]->getUpColor() == LeftCenter) {
+            rotatePlanes("F U F'U'F U F'U'F U F'U'F U F'U'F U F'");
+            count = 0;
+            continue;
+        }
+
+        bool frontColumn = (FrontPlane[0][2]->getFrontColor() == FrontCenter && RightPlane[0][0]->getRightColor()
+                == DownCenter && UpPlane[2][2]->getUpColor() == RightCenter) || (FrontPlane[2][2]->getFrontColor() ==
+                    RightCenter && RightPlane[2][0]->getRightColor() == DownCenter && DownPlane[0][2]->getDownColor()
+                    == FrontCenter) || (FrontPlane[0][2]->getFrontColor() == RightCenter &&
+                        RightPlane[0][0]->getRightColor() == FrontCenter&& UpPlane[2][2]->getUpColor() == DownCenter)
+                        || (FrontPlane[2][2]->getFrontColor() == DownCenter && RightPlane[2][0]->getRightColor() ==
+                            FrontCenter && DownPlane[0][2]->getDownColor() == RightCenter) ||
+                            (FrontPlane[0][2]->getFrontColor() == DownCenter && RightPlane[0][0]->getRightColor()
+                            == RightCenter && UpPlane[2][2]->getUpColor() == FrontCenter);
+        if (frontColumn) {
+            rotatePlanes("R U R'U'");
+            count = 0;
+            continue;
+        }
+        bool rightColumn = (RightPlane[0][2]->getRightColor() == RightCenter && BackPlane[0][0]->getBackColor() == DownCenter
+                && UpPlane[0][2]->getUpColor() == BackCenter) || (RightPlane[2][2]->getRightColor() == BackCenter
+                    && BackPlane[2][0]->getBackColor() == DownCenter && DownPlane[2][2]->getDownColor() == RightCenter) ||
+                    (RightPlane[0][2]->getRightColor() == BackCenter && BackPlane[0][0]->getBackColor() == RightCenter
+                         && UpPlane[0][2]->getUpColor() == DownCenter) || (RightPlane[2][2]->getRightColor() == DownCenter
+                         && BackPlane[2][0]->getBackColor() == RightCenter && DownPlane[2][2]->getDownColor() == BackCenter) ||
+                         (RightPlane[0][2]->getRightColor() == DownCenter && BackPlane[0][0]->getBackColor() == BackCenter
+                         && UpPlane[0][2]->getUpColor() == RightCenter);
+        if (rightColumn) {
+            rotatePlanes("B U B'U'");
+            count = 0;
+            continue;
+        }
+        bool backColumn;
     }
 }
 
