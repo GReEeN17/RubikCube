@@ -89,12 +89,13 @@ private:
 
     //Checking if seventh step completed
     [[nodiscard]] bool isSeventhStepCompleted();
-
+public:
     //First step of solving Rubik's Cube
     void firstStep();
 
     //Second step of solving Rubik's Cube
     void secondStep();
+private:
 
     //Make numerous rotations
     void rotatePlanes(string rotations);

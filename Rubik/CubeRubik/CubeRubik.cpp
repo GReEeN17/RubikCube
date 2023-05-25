@@ -564,35 +564,61 @@ void CubeRubik::secondStep() {
             count = 0;
             continue;
         }
-
-        bool frontColumn = (FrontPlane[0][2]->getFrontColor() == FrontCenter && RightPlane[0][0]->getRightColor()
-                == DownCenter && UpPlane[2][2]->getUpColor() == RightCenter) || (FrontPlane[2][2]->getFrontColor() ==
-                    RightCenter && RightPlane[2][0]->getRightColor() == DownCenter && DownPlane[0][2]->getDownColor()
-                    == FrontCenter) || (FrontPlane[0][2]->getFrontColor() == RightCenter &&
-                        RightPlane[0][0]->getRightColor() == FrontCenter&& UpPlane[2][2]->getUpColor() == DownCenter)
-                        || (FrontPlane[2][2]->getFrontColor() == DownCenter && RightPlane[2][0]->getRightColor() ==
-                            FrontCenter && DownPlane[0][2]->getDownColor() == RightCenter) ||
-                            (FrontPlane[0][2]->getFrontColor() == DownCenter && RightPlane[0][0]->getRightColor()
-                            == RightCenter && UpPlane[2][2]->getUpColor() == FrontCenter);
-        if (frontColumn) {
-            rotatePlanes("R U R'U'");
+        bool wrongFrontColors = (DownPlane[0][2]->getDownColor() == DownCenter || DownPlane[0][2]->getDownColor() == FrontCenter
+                || DownPlane[0][2]->getDownColor() == RightCenter) && (RightPlane[2][0]->getRightColor() == DownCenter
+                        || RightPlane[2][0]->getRightColor() == FrontCenter || RightPlane[2][0]->getRightColor() == RightCenter)
+                                && (FrontPlane[2][2]->getFrontColor() == DownCenter || FrontPlane[2][2]->getFrontColor() == FrontCenter
+                                || FrontPlane[2][2]->getFrontColor() == RightCenter);
+        bool extraFrontColors = DownPlane[0][2]->getDownColor() == DownCenter || FrontPlane[2][2]->getFrontColor() == DownCenter
+                || RightPlane[2][0]->getRightColor() == DownCenter;
+        if (!wrongFrontColors && extraFrontColors) {
+            rotatePlanes("R U R'");
             count = 0;
             continue;
         }
-        bool rightColumn = (RightPlane[0][2]->getRightColor() == RightCenter && BackPlane[0][0]->getBackColor() == DownCenter
-                && UpPlane[0][2]->getUpColor() == BackCenter) || (RightPlane[2][2]->getRightColor() == BackCenter
-                    && BackPlane[2][0]->getBackColor() == DownCenter && DownPlane[2][2]->getDownColor() == RightCenter) ||
-                    (RightPlane[0][2]->getRightColor() == BackCenter && BackPlane[0][0]->getBackColor() == RightCenter
-                         && UpPlane[0][2]->getUpColor() == DownCenter) || (RightPlane[2][2]->getRightColor() == DownCenter
-                         && BackPlane[2][0]->getBackColor() == RightCenter && DownPlane[2][2]->getDownColor() == BackCenter) ||
-                         (RightPlane[0][2]->getRightColor() == DownCenter && BackPlane[0][0]->getBackColor() == BackCenter
-                         && UpPlane[0][2]->getUpColor() == RightCenter);
-        if (rightColumn) {
-            rotatePlanes("B U B'U'");
+        bool wrongRightColors = (DownPlane[2][2]->getDownColor() == DownCenter || DownPlane[2][2]->getDownColor() == RightCenter
+                || DownPlane[2][2]->getDownColor() == BackCenter) && (RightPlane[2][2]->getRightColor() == DownCenter
+                        || RightPlane[2][2]->getRightColor() == RightCenter || RightPlane[2][2]->getRightColor() == BackCenter)
+                                && (BackPlane[2][0]->getBackColor() == DownCenter || BackPlane[2][0]->getBackColor() == RightCenter
+                                || BackPlane[2][0]->getBackColor() == BackCenter);
+        bool extraRightColors = DownPlane[2][2]->getDownColor() == DownCenter || RightPlane[2][2]->getRightColor() == DownCenter
+                || BackPlane[2][0]->getBackColor() == DownCenter;
+        if (!wrongRightColors && extraRightColors) {
+            rotatePlanes("B U B'");
             count = 0;
             continue;
         }
-        bool backColumn;
+        bool wrongBackColors = (DownPlane[2][0]->getDownColor() == DownCenter || DownPlane[2][0]->getDownColor() == BackCenter
+                || DownPlane[2][0]->getDownColor() == LeftCenter) && (BackPlane[2][2]->getBackColor() == DownCenter
+                        || BackPlane[2][2]->getBackColor() == BackCenter || BackPlane[2][2]->getBackColor() == LeftCenter)
+                                && (LeftPlane[2][0]->getLeftColor() == DownCenter || LeftPlane[2][0]->getLeftColor() == BackCenter
+                                || LeftPlane[2][0]->getLeftColor() == LeftCenter);
+        bool extraBackColors = DownPlane[2][0]->getDownColor() == DownCenter || BackPlane[2][2]->getBackColor() == DownCenter
+                || LeftPlane[2][0]->getLeftColor() == DownCenter;
+        if (!wrongBackColors && extraBackColors) {
+            rotatePlanes("L U L'");
+            count = 0;
+            continue;
+        }
+        bool wrongLeftColors = (DownPlane[0][0]->getDownColor() == DownCenter || DownPlane[0][0]->getDownColor() == LeftCenter
+                || DownPlane[0][0]->getDownColor() == FrontCenter) && (LeftPlane[2][2]->getLeftColor() == DownCenter
+                        || LeftPlane[2][2]->getLeftColor() == LeftCenter || LeftPlane[2][2]->getLeftColor() == FrontCenter)
+                                && (FrontPlane[2][0]->getFrontColor() == DownCenter || FrontPlane[2][0]->getFrontColor() == LeftCenter
+                                || FrontPlane[2][0]->getFrontColor() == FrontCenter);
+        bool extraLeftColors = DownPlane[0][0]->getDownColor() == DownCenter || LeftPlane[2][2]->getLeftColor() == DownCenter
+                || FrontPlane[2][0]->getFrontColor() == DownCenter;
+        if (!wrongLeftColors && extraLeftColors) {
+            rotatePlanes("F U F'");
+            count = 0;
+            continue;
+        }
+        if (count < 4 && !isSecondStepCompleted()) {
+            rotatePlanes("U ");
+        } else if (count == 4 && !isSecondStepCompleted()) {
+            shuffle(3);
+            firstStep();
+            secondStep();
+        }
     }
 }
 
