@@ -273,7 +273,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
 [[nodiscard]] bool CubeRubik::isFifthStepCompleted() {
     bool fourthCompleted = isFourthStepCompleted();
     //Checking if upper angles are correct
-    bool frontLeftCompleted = (FrontPlane[0][0]->getFrontColor() == FrontCenter || FrontPlane[0][0]->getUpColor() ==
+    bool frontLeftCompleted = (FrontPlane[0][0]->getFrontColor() == FrontCenter || FrontPlane[0][0]->getFrontColor() ==
             LeftCenter || FrontPlane[0][0]->getFrontColor() == UpCenter) && (LeftPlane[0][2]->getLeftColor() ==
                     LeftCenter || LeftPlane[0][2]->getLeftColor() == FrontCenter || LeftPlane[0][2]->getLeftColor()
                     == UpCenter) && (UpPlane[2][0]->getUpColor() == UpCenter || UpPlane[2][0]->getUpColor()
@@ -732,6 +732,63 @@ void CubeRubik::fourthStep() {
             firstStep();
             secondStep();
             thirdStep();
+            count = 0;
+        }
+    }
+}
+
+void CubeRubik::fifthStep() {
+    int count = 0;
+    for (int i = 0; i < 128 && !isFifthStepCompleted(); i++) {
+        bool leftFrontAngle = (FrontPlane[0][0]->getFrontColor() == FrontCenter || FrontPlane[0][0]->getFrontColor() == UpCenter
+                || FrontPlane[0][0]->getFrontColor() == LeftCenter) && (UpPlane[2][0]->getUpColor() == FrontCenter ||
+                        UpPlane[2][0]->getUpColor() == UpCenter || UpPlane[2][0]->getUpColor() == LeftCenter) &&
+                                (LeftPlane[0][2]->getLeftColor() == FrontCenter || LeftPlane[0][2]->getLeftColor() == UpCenter
+                                || LeftPlane[0][2]->getLeftColor() == LeftCenter);
+        bool rightFrontAngle = (FrontPlane[0][2]->getFrontColor() == FrontCenter || FrontPlane[0][2]->getFrontColor() == UpCenter
+                || FrontPlane[0][2]->getFrontColor() == RightCenter) && (UpPlane[2][2]->getUpColor() == FrontCenter
+                        || UpPlane[2][2]->getUpColor() == UpCenter || UpPlane[2][2]->getUpColor() == RightCenter) &&
+                                (RightPlane[0][0]->getRightColor() == FrontCenter || RightPlane[0][0]->getRightColor() == UpCenter
+                                || RightPlane[0][0]->getRightColor() == RightCenter);
+        bool leftBackAngle = (BackPlane[0][2]->getBackColor() == BackCenter || BackPlane[0][2]->getBackColor() == UpCenter
+                || BackPlane[0][2]->getBackColor() == LeftCenter) && (LeftPlane[0][0]->getLeftColor() == BackCenter ||
+                        LeftPlane[0][0]->getLeftColor() == UpCenter || LeftPlane[0][0]->getLeftColor() == LeftCenter) &&
+                                (UpPlane[0][0]->getUpColor() == BackCenter || UpPlane[0][0]->getUpColor() == UpCenter
+                                || UpPlane[0][0]->getUpColor() == LeftCenter);
+        bool rightBackAngle = (BackPlane[0][0]->getBackColor() == BackCenter || BackPlane[0][0]->getBackColor() == UpCenter
+                || BackPlane[0][0]->getBackColor() == RightCenter) && (UpPlane[0][2]->getUpColor() == BackCenter ||
+                        UpPlane[0][2]->getUpColor() == UpCenter || UpPlane[0][2]->getUpColor() == RightCenter) &&
+                                (RightPlane[0][2]->getRightColor() == BackCenter || RightPlane[0][2]->getRightColor() == UpCenter
+                                || RightPlane[0][2]->getRightColor() == RightCenter);
+        if (leftFrontAngle && leftBackAngle || leftFrontAngle && rightBackAngle) {
+            rotatePlanes("R U R'U'R U R'U'R U R'U'F'U'F U F'U'F U F'U'F ");
+            count = 0;
+            continue;
+        }
+        if (rightFrontAngle && leftFrontAngle || rightFrontAngle && leftBackAngle) {
+            rotatePlanes("B U B'U'B U B'U'B U B'U'R'U'R U R'U'R U R'U'R ");
+            count = 0;
+            continue;
+        }
+        if (rightBackAngle && rightFrontAngle) {
+            rotatePlanes("L U L'U'L U L'U'L U L'U'B'U'B U B'U'B U B'U'B ");
+            count = 0;
+            continue;
+        }
+        if (leftBackAngle && rightBackAngle) {
+            rotatePlanes("F U F'U'F U F'U'F U F'U'L'U'L U L'U'L U L'U'L ");
+            count = 0;
+            continue;
+        }
+        if (count < 4 && !isFifthStepCompleted()) {
+            count++;
+            rotatePlanes("U ");
+        } else if (count == 4 && !isFifthStepCompleted()) {
+            shuffle(3);
+            firstStep();
+            secondStep();
+            thirdStep();
+            fourthStep();
             count = 0;
         }
     }
