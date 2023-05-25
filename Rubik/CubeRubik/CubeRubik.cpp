@@ -613,11 +613,126 @@ void CubeRubik::secondStep() {
             continue;
         }
         if (count < 4 && !isSecondStepCompleted()) {
+            count++;
             rotatePlanes("U ");
         } else if (count == 4 && !isSecondStepCompleted()) {
             shuffle(3);
             firstStep();
+            count = 0;
+        }
+    }
+}
+
+void CubeRubik::thirdStep() {
+    int count = 0;
+    for (int i = 0; i < 128 && !isThirdStepCompleted(); i++) {
+        if (FrontPlane[0][1]->getFrontColor() == FrontCenter && UpPlane[2][1]->getUpColor() == RightCenter) {
+            rotatePlanes("U R U R'U'F'U'F ");
+            count = 0;
+            continue;
+        }
+        if (FrontPlane[0][1]->getFrontColor() == FrontCenter && UpPlane[2][1]->getUpColor() == LeftCenter) {
+            rotatePlanes("U'L'U'L U F U F'");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[0][1]->getRightColor() == RightCenter && UpPlane[1][2]->getUpColor() == BackCenter) {
+            rotatePlanes("U B U B'U'R'U'R ");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[0][1]->getRightColor() == RightCenter && UpPlane[1][2]->getUpColor() == FrontCenter) {
+            rotatePlanes("U'F'U'F U R U R'");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[0][1]->getBackColor() == BackCenter && UpPlane[0][1]->getUpColor() == LeftCenter) {
+            rotatePlanes("U L U L'U'B'U'B ");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[0][1]->getBackColor() == BackCenter && UpPlane[0][1]->getUpColor() == RightCenter) {
+            rotatePlanes("U'R'U'R U B U B'");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[0][1]->getLeftColor() == LeftCenter && UpPlane[1][0]->getUpColor() == FrontCenter) {
+            rotatePlanes("U F U F'U'L'U'L ");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[0][1]->getLeftColor() == LeftCenter && UpPlane[1][0]->getUpColor() == BackCenter) {
+            rotatePlanes("U'B'U'B U L U L'");
+            count = 0;
+            continue;
+        }
+        if (FrontPlane[1][2]->getFrontColor() == RightCenter && RightPlane[1][0]->getRightColor() == FrontCenter) {
+            rotatePlanes("R U R'U'F'U'F ");
+            count = 0;
+            continue;
+        }
+        if (RightPlane[1][2]->getRightColor() == BackCenter && BackPlane[1][0]->getBackColor() == RightCenter) {
+            rotatePlanes("B U B'U'R'U'R ");
+            count = 0;
+            continue;
+        }
+        if (BackPlane[1][2]->getBackColor() == LeftCenter && LeftPlane[1][0]->getLeftColor() == BackCenter) {
+            rotatePlanes("L U L'U'B'U'B ");
+            count = 0;
+            continue;
+        }
+        if (LeftPlane[1][2]->getLeftColor() == FrontCenter && FrontPlane[1][0]->getFrontColor() == LeftCenter) {
+            rotatePlanes("F U F'U'L'U'L ");
+            count = 0;
+            continue;
+        }
+        if (count < 4 && !isThirdStepCompleted()) {
+            count++;
+            rotatePlanes("U ");
+        } else if (count == 4 && !isThirdStepCompleted()) {
+            shuffle(3);
+            count = 0;
+            firstStep();
             secondStep();
+        }
+    }
+}
+
+void CubeRubik::fourthStep() {
+    int count = 0;
+    for (int i = 0; i < 128 && !isFourthStepCompleted(); i++) {
+        if (UpPlane[0][1]->getUpColor() == UpCenter && UpPlane[1][0]->getUpColor() == UpCenter
+        || UpPlane[1][0]->getUpColor() == UpCenter && UpPlane[1][2]->getUpColor() == UpCenter ||
+        UpPlane[0][1]->getUpColor() != UpCenter && UpPlane[1][0]->getUpColor() != UpCenter &&
+        UpPlane[2][1]->getUpColor() != UpCenter && UpPlane[1][2]->getUpColor() != UpCenter) {
+            rotatePlanes("F R U R'U'R U R'U'F'");
+            count = 0;
+            continue;
+        }
+        if (UpPlane[1][0]->getUpColor() == UpCenter && UpPlane[2][1]->getUpColor() == UpCenter
+        || UpPlane[2][1]->getUpColor() == UpCenter && UpPlane[0][1]->getUpColor() == UpCenter) {
+            rotatePlanes("R B U B'U'B U B'U'R'");
+            count = 0;
+            continue;
+        }
+        if (UpPlane[2][1]->getUpColor() == UpCenter && UpPlane[1][2]->getUpColor() == UpCenter) {
+            rotatePlanes("B L U L'U'L U L'U'B'");
+            count = 0;
+            continue;
+        }
+        if (UpPlane[1][2]->getUpColor() == UpCenter && UpPlane[0][1]->getUpColor() == UpCenter) {
+            rotatePlanes("L F U F'U'F U F'U'L'");
+            count = 0;
+            continue;
+        }
+        if (count < 4 && !isFourthStepCompleted()) {
+            count++;
+        } else if (count == 4 && !isFourthStepCompleted()) {
+            shuffle();
+            firstStep();
+            secondStep();
+            thirdStep();
+            count = 0;
         }
     }
 }

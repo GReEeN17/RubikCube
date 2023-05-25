@@ -95,6 +95,21 @@ public:
 
     //Second step of solving Rubik's Cube
     void secondStep();
+
+    //Third step of solving Rubik's Cube
+    void thirdStep();
+
+    //Fourth step of solving Rubik's Cube
+    void fourthStep();
+
+    //Fifth step of solving Rubik's Cube
+    void fifthStep();
+
+    //Sixth step of solving Rubik's Cube
+    void sixthStep();
+
+    //Seventh step of solving Rubik's Cube
+    void seventhStep();
 private:
 
     //Make numerous rotations
