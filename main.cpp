@@ -16,5 +16,7 @@ int main() {
     cubeRubik.printRubikCube();
     cubeRubik.fifthStep();
     cubeRubik.printRubikCube();
+    cubeRubik.sixthStep();
+    cubeRubik.printRubikCube();
     return 0;
 }

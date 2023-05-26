@@ -148,6 +148,7 @@ void CubeRubik::shuffle(int rotations) {
                 break;
         }
     }
+    cout << "\n\n";
 }
 
 //Filling empty plane vectors
@@ -298,7 +299,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
 
 //Checking if sixth step completed
 [[nodiscard]] bool CubeRubik::isSixthStepCompleted() {
-    bool fifthCompleted = isFifthStepCompleted();
+    //bool fifthCompleted = isFifthStepCompleted();
     //Checking if angles correct
     bool frontLeftCompleted = FrontPlane[0][0]->getFrontColor() == FrontCenter && LeftPlane[0][2]->getLeftColor()
             == LeftCenter && UpPlane[2][0]->getUpColor() == UpCenter;
@@ -308,7 +309,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
             LeftCenter && UpPlane[0][0]->getUpColor() == UpCenter;
     bool backRightCompleted = BackPlane[0][0]->getBackColor() == BackCenter && RightPlane[0][2]->getRightColor() ==
             RightCenter && UpPlane[0][2]->getUpColor() == UpCenter;
-    return fifthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
+    return frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
 }
 
 //Checking if seventh step completed
@@ -789,6 +790,29 @@ void CubeRubik::fifthStep() {
             secondStep();
             thirdStep();
             fourthStep();
+            count = 0;
+        }
+    }
+}
+
+void CubeRubik::sixthStep() {
+    int count = 0;
+    for (int i = 0; i < 124 && !isSixthStepCompleted(); i++) {
+        if (UpPlane[2][0]->getUpColor() != UpCenter) {
+            rotatePlanes("L D L'D'");
+            count = 0;
+            continue;
+        }
+        if (count < 4 && !isSixthStepCompleted()) {
+            rotatePlanes("U ");
+            count++;
+        } else if (count == 4 && !isSixthStepCompleted()) {
+            shuffle(3);
+            firstStep();
+            secondStep();
+            thirdStep();
+            fourthStep();
+            fifthStep();
             count = 0;
         }
     }
