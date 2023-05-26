@@ -818,6 +818,73 @@ void CubeRubik::sixthStep() {
     }
 }
 
+void CubeRubik::seventhStep() {
+    int count = 0;
+    for (int i = 0; i < 128 && !isSeventhStepCompleted(); i++) {
+        bool frontAnglesCorrect = FrontPlane[0][0]->getFrontColor() == FrontCenter && FrontPlane[0][2]->getFrontColor() == FrontCenter;
+        bool frontCenterCorrect = FrontPlane[0][1]->getFrontColor() == FrontCenter;
+        bool rightAnglesCorrect = RightPlane[0][0]->getRightColor() == RightCenter && RightPlane[0][2]->getRightColor() == RightCenter;
+        bool rightCenterCorrect = RightPlane[0][1]->getRightColor() == RightCenter;
+        bool backAnglesCorrect = BackPlane[0][0]->getBackColor() == BackCenter && BackPlane[0][2]->getBackColor() == BackCenter;
+        bool backCenterCorrect = BackPlane[0][1]->getBackColor() == BackCenter;
+        bool leftAnglesCorrect = LeftPlane[0][0]->getLeftColor() == LeftCenter && LeftPlane[0][2]->getLeftColor() == LeftCenter;
+        bool leftCenterCorrect = LeftPlane[0][1]->getLeftColor() == LeftCenter;
+        if (frontAnglesCorrect && frontCenterCorrect) {
+            rotatePlanes("R U R'U'L'U'L U R U R'U'R U R'U'R U R'U'R U R'U'R U R'U'L'U'L U L'U'L U L'U'L U L'U'L U L'U'L U ");
+            count = 0;
+            continue;
+        }
+        if (rightAnglesCorrect && rightCenterCorrect) {
+            rotatePlanes("B U B'U'F'U'F U B U B'U'B U B'U'B U B'U'B U B'U'B U B'U'F'U'F U F'U'F U F'U'F U F'U'F U F'U'F U ");
+            count = 0;
+            continue;
+        }
+        if (backAnglesCorrect && backCenterCorrect) {
+            rotatePlanes("L U L'U'R'U'R U L U L'U'L U L'U'L U L'U'L U L'U'L U L'U'R'U'R U R'U'R U R'U'R U R'U'R U R'U'R U ");
+            count = 0;
+            continue;
+        }
+        if (leftAnglesCorrect && leftCenterCorrect) {
+            rotatePlanes("F U F'U'B'U'B U F U F'U'F U F'U'F U F'U'F U F'U'F U F'U'B'U'B U B'U'B U B'U'B U B'U'B U B'U'B U ");
+            count = 0;
+            continue;
+        }
+        if (frontAnglesCorrect) {
+            rotatePlanes("R U R'U'L'U'L U R U R'U'R U R'U'R U R'U'R U R'U'R U R'U'L'U'L U L'U'L U L'U'L U L'U'L U L'U'L U ");
+            count = 0;
+            continue;
+        }
+        if (rightAnglesCorrect) {
+            rotatePlanes("B U B'U'F'U'F U B U B'U'B U B'U'B U B'U'B U B'U'B U B'U'F'U'F U F'U'F U F'U'F U F'U'F U F'U'F U ");
+            count = 0;
+            continue;
+        }
+        if (backAnglesCorrect) {
+            rotatePlanes("L U L'U'R'U'R U L U L'U'L U L'U'L U L'U'L U L'U'L U L'U'R'U'R U R'U'R U R'U'R U R'U'R U R'U'R U ");
+            count = 0;
+            continue;
+        }
+        if (leftAnglesCorrect) {
+            rotatePlanes("F U F'U'B'U'B U F U F'U'F U F'U'F U F'U'F U F'U'F U F'U'B'U'B U B'U'B U B'U'B U B'U'B U B'U'B U ");
+            count = 0;
+            continue;
+        }
+        if (count < 4 && !isSeventhStepCompleted()) {
+            count++;
+            rotatePlanes("U ");
+        } else if (count == 4 && !isSeventhStepCompleted()) {
+            shuffle(3);
+            firstStep();
+            secondStep();
+            thirdStep();
+            fourthStep();
+            fifthStep();
+            sixthStep();
+            count = 0;
+        }
+    }
+}
+
 //Make numerous rotations
 void CubeRubik::rotatePlanes(string rotations) {
     for (int i = 0; i < rotations.size(); i += 2) {
