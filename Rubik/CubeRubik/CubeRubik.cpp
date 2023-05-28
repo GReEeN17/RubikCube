@@ -3,6 +3,7 @@
 #include <random>
 
 using std::istream, std::cin, std::ostream, std::string, std::random_device, std::mt19937, std::uniform_int_distribution;
+using std::logic_error, std::exception;
 
 //Constructor
 
@@ -15,8 +16,16 @@ CubeRubik::CubeRubik() {
 
 //Getters of info
 
-int CubeRubik::getRotatesCounter() const {
-    return rotatesCounter;
+void CubeRubik::getInfoOfSolvation() const {
+    cout << "Information about latest solvation: \n";
+    cout << "Rotations made in first step: " << firstStepCounter << "\n";
+    cout << "Rotations made in second step: " << secondStepCounter << "\n";
+    cout << "Rotations made in third step: " << thirdStepCounter << "\n";
+    cout << "Rotations made in fourth step: " << fourthStepCounter << "\n";
+    cout << "Rotations made in fifth step: " << fifthStepCounter << "\n";
+    cout << "Rotations made in sixth step: " << sixthStepCounter << "\n";
+    cout << "Rotations made in seventh step: " << seventhStepCounter << "\n";
+    cout << "Rotations made while solving Rubik's Cube: " << rotatesCounter << "\n";
 }
 
 //Implementation of the main function: generating, shuffling, solving etc.
@@ -149,6 +158,59 @@ void CubeRubik::shuffle(int rotations) {
         }
     }
     cout << "\n\n";
+}
+
+bool CubeRubik::isSolved() {
+    return isSeventhStepCompleted();
+}
+
+void CubeRubik::solveCubeRubik() {
+    if (!checkCubeIsCorrect()) {
+        throw logic_error("\n\nCube is not correct, it can not be solved\n\n");
+    }
+    if (isSolved()) {
+        throw logic_error("Cube is already solved!!!\n\n");
+    }
+    try {
+        cout << "\n\nSolving Rubik's Cube\n\n";
+        firstStepCounter = 0;
+        secondStepCounter = 0;
+        thirdStepCounter = 0;
+        fourthStepCounter = 0;
+        fifthStepCounter = 0;
+        sixthStepCounter = 0;
+        seventhStepCounter = 0;
+        rotatesCounter = 0;
+        firstStep();
+        secondStep();
+        thirdStep();
+        fourthStep();
+        fifthStep();
+        sixthStep();
+        seventhStep();
+    } catch (exception e) {
+        cout << e.what();
+    }
+}
+
+void CubeRubik::rightSolver() {
+    if (!isSolved()) {
+        throw logic_error("\n\nRubik's Cube is not solver, you can not use this algorithm\n\n");
+    }
+    do {
+        rotatePlanes("R U R'U'");
+    } while (!isSolved());
+    cout << "\nCube is solved one more time!!!\n";
+}
+
+void CubeRubik::leftSolver() {
+    if (!isSolved()) {
+        throw logic_error("\n\nRubik's Cube is not solver, you can not use this algorithm\n\n");
+    }
+    do {
+        rotatePlanes("L'U'L U ");
+    } while (!isSolved());
+    cout << "\nCube is solved one more time!!!\n";
 }
 
 //Filling empty plane vectors
@@ -292,7 +354,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
     bool backRightCompleted = (BackPlane[0][0]->getBackColor() == BackCenter || BackPlane[0][0]->getBackColor() ==
             RightCenter || BackPlane[0][0]->getBackColor() == UpCenter) && (RightPlane[0][2]->getRightColor() ==
                     RightCenter || RightPlane[0][2]->getRightColor() == BackCenter || RightPlane[0][2]->getRightColor()
-                    == UpCenter) && (UpPlane[0][2]->getUpColor() == UpCenter && UpPlane[0][2]->getUpColor() ==
+                    == UpCenter) && (UpPlane[0][2]->getUpColor() == UpCenter || UpPlane[0][2]->getUpColor() ==
                             BackCenter || UpPlane[0][2]->getUpColor() == RightCenter);
     return fourthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
 }
@@ -300,6 +362,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
 //Checking if sixth step completed
 [[nodiscard]] bool CubeRubik::isSixthStepCompleted() {
     //bool fifthCompleted = isFifthStepCompleted();
+    bool fifthCompleted = isFifthStepCompleted();
     //Checking if angles correct
     bool frontLeftCompleted = FrontPlane[0][0]->getFrontColor() == FrontCenter && LeftPlane[0][2]->getLeftColor()
             == LeftCenter && UpPlane[2][0]->getUpColor() == UpCenter;
@@ -309,7 +372,7 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
             LeftCenter && UpPlane[0][0]->getUpColor() == UpCenter;
     bool backRightCompleted = BackPlane[0][0]->getBackColor() == BackCenter && RightPlane[0][2]->getRightColor() ==
             RightCenter && UpPlane[0][2]->getUpColor() == UpCenter;
-    return frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
+    return fifthCompleted && frontLeftCompleted && frontRightCompleted && backLeftCompleted && backRightCompleted;
 }
 
 //Checking if seventh step completed
@@ -326,242 +389,329 @@ void CubeRubik::increaseColor(unsigned char &yellow, unsigned char &white, unsig
 //First step of solving Rubik's Cube
 void CubeRubik::firstStep() {
     int count = 0;
-    for (int i = 0; i < 128 && !isFirstStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 128 && !isFirstStepCompleted(); i++) {
         if (FrontCenter == FrontPlane[0][1]->getFrontColor() && UpPlane[2][1]->getUpColor() == DownCenter) {
             rotatePlanes("F F ");
+            firstStepCounter += 2;
+            rotatesCounter += 2;
             count = 0;
             continue;
         }
         if (RightCenter == RightPlane[0][1]->getRightColor() && UpPlane[1][2]->getUpColor() == DownCenter) {
             rotatePlanes("R R ");
+            firstStepCounter += 2;
+            rotatesCounter += 2;
             count = 0;
             continue;
         }
         if (BackCenter == BackPlane[0][1]->getBackColor() && UpPlane[0][1]->getUpColor() == DownCenter) {
             rotatePlanes("B B ");
+            firstStepCounter += 2;
+            rotatesCounter += 2;
             count = 0;
             continue;
         }
         if (LeftCenter == LeftPlane[0][1]->getLeftColor() && UpPlane[1][0]->getLeftColor() == DownCenter) {
             rotatePlanes("L L ");
+            firstStepCounter += 2;
+            rotatesCounter += 2;
             count = 0;
             continue;
         }
         if (FrontPlane[0][1]->getFrontColor() == DownCenter && UpPlane[2][1]->getUpColor() == FrontCenter) {
             rotatePlanes("U'R'F R ");
+            firstStepCounter += 4;
+            rotatesCounter += 4;
             count = 0;
             continue;
         }
         if (RightPlane[0][1]->getRightColor() == DownCenter && UpPlane[1][2]->getUpColor() == RightCenter) {
             rotatePlanes("U'B'R B ");
+            firstStepCounter += 4;
+            rotatesCounter += 4;
             count = 0;
             continue;
         }
         if (BackPlane[0][1]->getBackColor() == DownCenter && UpPlane[0][1]->getUpColor() == BackCenter) {
             rotatePlanes("U'L'B L ");
+            firstStepCounter += 4;
+            rotatesCounter += 4;
             count = 0;
             continue;
         }
         if (LeftPlane[0][1]->getLeftColor() == DownCenter && UpPlane[1][0]->getUpColor() == LeftCenter) {
             rotatePlanes("U'F'L F ");
+            firstStepCounter += 4;
+            rotatesCounter += 4;
             count = 0;
             continue;
         }
         if (FrontPlane[1][2]->getFrontColor() == DownCenter) {
             rotatePlanes("F'U'F ");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (RightPlane[1][2]->getRightColor() == DownCenter) {
             rotatePlanes("R'U'R ");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (BackPlane[1][2]->getBackColor() == DownCenter) {
             rotatePlanes("B'U'B ");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (LeftPlane[1][2]->getLeftColor() == DownCenter) {
             rotatePlanes("L'U'L ");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (FrontPlane[1][0]->getFrontColor() == DownCenter) {
             rotatePlanes("F U'F'");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (RightPlane[1][0]->getRightColor() == DownCenter) {
             rotatePlanes("R U'R'");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (BackPlane[1][0]->getBackColor() == DownCenter) {
             rotatePlanes("B U'B'");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (LeftPlane[1][0]->getLeftColor() == DownCenter) {
             rotatePlanes("L U'L'");
+            firstStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (FrontPlane[2][1]->getFrontColor() == DownCenter ||
             (DownPlane[0][1]->getDownColor() == DownCenter && FrontPlane[2][1]->getFrontColor() != FrontCenter)) {
             rotatePlanes("F F U'F F ");
+            firstStepCounter += 5;
+            rotatesCounter += 5;
             count = 0;
             continue;
         }
         if (RightPlane[2][1]->getRightColor() == DownCenter ||
             (DownPlane[1][2]->getDownColor() == DownCenter && RightPlane[2][1]->getRightColor() != RightCenter)) {
             rotatePlanes("R R U'R R ");
+            firstStepCounter += 5;
+            rotatesCounter += 5;
             count = 0;
             continue;
         }
         if (BackPlane[2][1]->getBackColor() == DownCenter ||
             (DownPlane[2][1]->getDownColor() == DownCenter && BackPlane[2][1]->getBackColor() != BackCenter)) {
             rotatePlanes("B B U'B B ");
+            firstStepCounter += 5;
+            rotatesCounter += 5;
             count = 0;
             continue;
         }
         if (LeftPlane[2][1]->getLeftColor() == DownCenter ||
             (DownPlane[1][0]->getDownColor() == DownCenter && LeftPlane[2][1]->getLeftColor() != LeftCenter)) {
             rotatePlanes("L L U'L L ");
+            firstStepCounter += 5;
+            rotatesCounter += 5;
             count = 0;
             continue;
         }
         if (!isFirstStepCompleted() && count < 4) {
             count++;
             rotatePlanes("U ");
+            firstStepCounter++;
+            rotatesCounter++;
         } else if (!isFirstStepCompleted() && count >= 4) {
             shuffle(3);
             count = 0;
         }
+    }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving first step\n\n");
     }
 }
 
 //Second step of solving Rubik's Cube
 void CubeRubik::secondStep() {
     int count = 0;
-    for (int i = 0; i < 128 && !isSecondStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 128 && !isSecondStepCompleted(); i++) {
         if (FrontPlane[0][2]->getFrontColor() == FrontCenter && RightPlane[0][0]->getRightColor() == DownCenter
             && UpPlane[2][2]->getUpColor() == RightCenter) {
             rotatePlanes("R U R'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (RightPlane[0][2]->getRightColor() == RightCenter && BackPlane[0][0]->getBackColor() == DownCenter
             && UpPlane[0][2]->getUpColor() == BackCenter) {
             rotatePlanes("B U B'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (BackPlane[0][2]->getBackColor() == BackCenter && LeftPlane[0][0]->getLeftColor() == DownCenter
             && UpPlane[0][0]->getUpColor() == LeftCenter) {
             rotatePlanes("L U L'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (LeftPlane[0][2]->getLeftColor() == LeftCenter && FrontPlane[0][0]->getFrontColor() == DownCenter
             && UpPlane[2][0]->getUpColor() == FrontCenter) {
             rotatePlanes("F U F'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (FrontPlane[2][2]->getFrontColor() == RightCenter && RightPlane[2][0]->getRightColor() == DownCenter
             && DownPlane[0][2]->getDownColor() == FrontCenter) {
             rotatePlanes("R U R'U'R U R'");
+            secondStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (RightPlane[2][2]->getRightColor() == BackCenter && BackPlane[2][0]->getBackColor() == DownCenter
             && DownPlane[2][2]->getDownColor() == RightCenter) {
             rotatePlanes("B U B'U'B U B'");
+            secondStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (BackPlane[2][2]->getBackColor() == LeftCenter && LeftPlane[2][0]->getLeftColor() == DownCenter
             && DownPlane[2][0]->getDownColor() == BackCenter) {
             rotatePlanes("L U L'U'L U L'");
+            secondStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (LeftPlane[2][2]->getLeftColor() == FrontCenter && FrontPlane[2][0]->getFrontColor() == DownCenter
             && DownPlane[0][0]->getDownColor() == LeftCenter) {
             rotatePlanes("F U F'U'F U F'");
+            secondStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (FrontPlane[0][2]->getFrontColor() == RightCenter && RightPlane[0][0]->getRightColor() == FrontCenter
             && UpPlane[2][2]->getUpColor() == DownCenter) {
             rotatePlanes("R U R'U'R U R'U'R U R'");
+            secondStepCounter += 11;
+            rotatesCounter += 11;
             count = 0;
             continue;
         }
         if (RightPlane[0][2]->getRightColor() == BackCenter && BackPlane[0][0]->getBackColor() == RightCenter
             && UpPlane[0][2]->getUpColor() == DownCenter) {
             rotatePlanes("B U B'U'B U B'U'B U B'");
+            secondStepCounter += 11;
+            rotatesCounter += 11;
             count = 0;
             continue;
         }
         if (BackPlane[0][2]->getBackColor() == LeftCenter && LeftPlane[0][0]->getLeftColor() == BackCenter
             && UpPlane[0][0]->getUpColor() == DownCenter) {
             rotatePlanes("L U L'U'L U L'U'L U L'");
+            secondStepCounter += 11;
+            rotatesCounter += 11;
             count = 0;
             continue;
         }
         if (LeftPlane[0][2]->getLeftColor() == FrontCenter && FrontPlane[0][0]->getFrontColor() == LeftCenter
             && UpPlane[2][0]->getUpColor() == DownCenter) {
             rotatePlanes("F U F'U'F U F'U'F U F'");
+            secondStepCounter += 11;
+            rotatesCounter += 11;
             count = 0;
             continue;
         }
         if (FrontPlane[2][2]->getFrontColor() == DownCenter && RightPlane[2][0]->getRightColor() == FrontCenter
             && DownPlane[0][2]->getDownColor() == RightCenter) {
             rotatePlanes("R U R'U'R U R'U'R U R'U'R U R'");
+            secondStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (RightPlane[2][2]->getRightColor() == DownCenter && BackPlane[2][0]->getBackColor() == RightCenter
             && DownPlane[2][2]->getDownColor() == BackCenter) {
             rotatePlanes("B U B'U'B U B'U'B U B'U'B U B'");
+            secondStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (BackPlane[2][2]->getBackColor() == DownCenter && LeftPlane[2][0]->getLeftColor() == BackCenter
             && DownPlane[2][0]->getDownColor() == LeftCenter) {
             rotatePlanes("L U L'U'L U L'U'L U L'U'L U L'");
+            secondStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (LeftPlane[2][2]->getLeftColor() == DownCenter && FrontPlane[2][0]->getFrontColor() == LeftCenter
             && DownPlane[0][0]->getDownColor() == FrontCenter) {
             rotatePlanes("F U F'U'F U F'U'F U F'U'F U F'");
+            secondStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (FrontPlane[0][2]->getFrontColor() == DownCenter && RightPlane[0][0]->getRightColor() == RightCenter
             && UpPlane[2][2]->getUpColor() == FrontCenter) {
             rotatePlanes("R U R'U'R U R'U'R U R'U'R U R'U'R U R'");
+            secondStepCounter += 19;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (RightPlane[0][2]->getRightColor() == DownCenter && BackPlane[0][0]->getBackColor() == BackCenter
             && UpPlane[0][2]->getUpColor() == RightCenter) {
             rotatePlanes("B U B'U'B U B'U'B U B'U'B U B'U'B U B'");
+            secondStepCounter += 19;
+            rotatesCounter += 19;
             count = 0;
             continue;
         }
         if (BackPlane[0][2]->getBackColor() == DownCenter && LeftPlane[0][0]->getLeftColor() == LeftCenter
             && UpPlane[0][0]->getUpColor() == BackCenter) {
             rotatePlanes("L U L'U'L U L'U'L U L'U'L U L'U'L U L'");
+            secondStepCounter += 19;
+            rotatesCounter += 19;
             count = 0;
             continue;
         }
         if (LeftPlane[0][2]->getLeftColor() == DownCenter && FrontPlane[0][0]->getFrontColor() == FrontCenter
             && UpPlane[2][0]->getUpColor() == LeftCenter) {
             rotatePlanes("F U F'U'F U F'U'F U F'U'F U F'U'F U F'");
+            secondStepCounter += 19;
+            rotatesCounter += 19;
             count = 0;
             continue;
         }
@@ -574,6 +724,8 @@ void CubeRubik::secondStep() {
                 || RightPlane[2][0]->getRightColor() == DownCenter;
         if (!wrongFrontColors && extraFrontColors) {
             rotatePlanes("R U R'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
@@ -586,6 +738,8 @@ void CubeRubik::secondStep() {
                 || BackPlane[2][0]->getBackColor() == DownCenter;
         if (!wrongRightColors && extraRightColors) {
             rotatePlanes("B U B'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
@@ -598,6 +752,8 @@ void CubeRubik::secondStep() {
                 || LeftPlane[2][0]->getLeftColor() == DownCenter;
         if (!wrongBackColors && extraBackColors) {
             rotatePlanes("L U L'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
@@ -610,86 +766,120 @@ void CubeRubik::secondStep() {
                 || FrontPlane[2][0]->getFrontColor() == DownCenter;
         if (!wrongLeftColors && extraLeftColors) {
             rotatePlanes("F U F'");
+            secondStepCounter += 3;
+            rotatesCounter += 3;
             count = 0;
             continue;
         }
         if (count < 4 && !isSecondStepCompleted()) {
             count++;
             rotatePlanes("U ");
+            secondStepCounter++;
+            rotatesCounter++;
         } else if (count == 4 && !isSecondStepCompleted()) {
             shuffle(3);
             firstStep();
             count = 0;
         }
     }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving second step\n\n");
+    }
 }
 
 void CubeRubik::thirdStep() {
     int count = 0;
-    for (int i = 0; i < 128 && !isThirdStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 128 && !isThirdStepCompleted(); i++) {
         if (FrontPlane[0][1]->getFrontColor() == FrontCenter && UpPlane[2][1]->getUpColor() == RightCenter) {
             rotatePlanes("U R U R'U'F'U'F ");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (FrontPlane[0][1]->getFrontColor() == FrontCenter && UpPlane[2][1]->getUpColor() == LeftCenter) {
             rotatePlanes("U'L'U'L U F U F'");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (RightPlane[0][1]->getRightColor() == RightCenter && UpPlane[1][2]->getUpColor() == BackCenter) {
             rotatePlanes("U B U B'U'R'U'R ");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (RightPlane[0][1]->getRightColor() == RightCenter && UpPlane[1][2]->getUpColor() == FrontCenter) {
             rotatePlanes("U'F'U'F U R U R'");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (BackPlane[0][1]->getBackColor() == BackCenter && UpPlane[0][1]->getUpColor() == LeftCenter) {
             rotatePlanes("U L U L'U'B'U'B ");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (BackPlane[0][1]->getBackColor() == BackCenter && UpPlane[0][1]->getUpColor() == RightCenter) {
             rotatePlanes("U'R'U'R U B U B'");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (LeftPlane[0][1]->getLeftColor() == LeftCenter && UpPlane[1][0]->getUpColor() == FrontCenter) {
             rotatePlanes("U F U F'U'L'U'L ");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (LeftPlane[0][1]->getLeftColor() == LeftCenter && UpPlane[1][0]->getUpColor() == BackCenter) {
             rotatePlanes("U'B'U'B U L U L'");
+            thirdStepCounter += 8;
+            rotatesCounter += 8;
             count = 0;
             continue;
         }
         if (FrontPlane[1][2]->getFrontColor() == RightCenter && RightPlane[1][0]->getRightColor() == FrontCenter) {
             rotatePlanes("R U R'U'F'U'F ");
+            thirdStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (RightPlane[1][2]->getRightColor() == BackCenter && BackPlane[1][0]->getBackColor() == RightCenter) {
             rotatePlanes("B U B'U'R'U'R ");
+            thirdStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (BackPlane[1][2]->getBackColor() == LeftCenter && LeftPlane[1][0]->getLeftColor() == BackCenter) {
             rotatePlanes("L U L'U'B'U'B ");
+            thirdStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (LeftPlane[1][2]->getLeftColor() == FrontCenter && FrontPlane[1][0]->getFrontColor() == LeftCenter) {
             rotatePlanes("F U F'U'L'U'L ");
+            thirdStepCounter += 7;
+            rotatesCounter += 7;
             count = 0;
             continue;
         }
         if (count < 4 && !isThirdStepCompleted()) {
             count++;
             rotatePlanes("U ");
+            thirdStepCounter++;
+            rotatesCounter++;
         } else if (count == 4 && !isThirdStepCompleted()) {
             shuffle(3);
             count = 0;
@@ -697,32 +887,44 @@ void CubeRubik::thirdStep() {
             secondStep();
         }
     }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving third step\n\n");
+    }
 }
 
 void CubeRubik::fourthStep() {
     int count = 0;
-    for (int i = 0; i < 128 && !isFourthStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 128 && !isFourthStepCompleted(); i++) {
         if (UpPlane[0][1]->getUpColor() == UpCenter && UpPlane[1][0]->getUpColor() == UpCenter
         || UpPlane[1][0]->getUpColor() == UpCenter && UpPlane[1][2]->getUpColor() == UpCenter ||
         UpPlane[0][1]->getUpColor() != UpCenter && UpPlane[1][0]->getUpColor() != UpCenter &&
         UpPlane[2][1]->getUpColor() != UpCenter && UpPlane[1][2]->getUpColor() != UpCenter) {
             rotatePlanes("F R U R'U'R U R'U'F'");
+            fourthStepCounter += 10;
+            rotatesCounter += 10;
             count = 0;
             continue;
         }
         if (UpPlane[1][0]->getUpColor() == UpCenter && UpPlane[2][1]->getUpColor() == UpCenter
         || UpPlane[2][1]->getUpColor() == UpCenter && UpPlane[0][1]->getUpColor() == UpCenter) {
             rotatePlanes("R B U B'U'B U B'U'R'");
+            fourthStepCounter += 10;
+            rotatesCounter += 10;
             count = 0;
             continue;
         }
         if (UpPlane[2][1]->getUpColor() == UpCenter && UpPlane[1][2]->getUpColor() == UpCenter) {
             rotatePlanes("B L U L'U'L U L'U'B'");
+            fourthStepCounter += 10;
+            rotatesCounter += 10;
             count = 0;
             continue;
         }
         if (UpPlane[1][2]->getUpColor() == UpCenter && UpPlane[0][1]->getUpColor() == UpCenter) {
             rotatePlanes("L F U F'U'F U F'U'L'");
+            fourthStepCounter += 10;
+            rotatesCounter += 10;
             count = 0;
             continue;
         }
@@ -736,11 +938,15 @@ void CubeRubik::fourthStep() {
             count = 0;
         }
     }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving fourth step\n\n");
+    }
 }
 
 void CubeRubik::fifthStep() {
     int count = 0;
-    for (int i = 0; i < 128 && !isFifthStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 128 && !isFifthStepCompleted(); i++) {
         bool leftFrontAngle = (FrontPlane[0][0]->getFrontColor() == FrontCenter || FrontPlane[0][0]->getFrontColor() == UpCenter
                 || FrontPlane[0][0]->getFrontColor() == LeftCenter) && (UpPlane[2][0]->getUpColor() == FrontCenter ||
                         UpPlane[2][0]->getUpColor() == UpCenter || UpPlane[2][0]->getUpColor() == LeftCenter) &&
@@ -763,27 +969,37 @@ void CubeRubik::fifthStep() {
                                 || RightPlane[0][2]->getRightColor() == RightCenter);
         if (leftFrontAngle && leftBackAngle || leftFrontAngle && rightBackAngle) {
             rotatePlanes("R U R'U'R U R'U'R U R'U'F'U'F U F'U'F U F'U'F ");
+            fifthStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (rightFrontAngle && leftFrontAngle || rightFrontAngle && leftBackAngle) {
             rotatePlanes("B U B'U'B U B'U'B U B'U'R'U'R U R'U'R U R'U'R ");
+            fifthStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (rightBackAngle && rightFrontAngle) {
             rotatePlanes("L U L'U'L U L'U'L U L'U'B'U'B U B'U'B U B'U'B ");
+            fifthStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (leftBackAngle && rightBackAngle) {
             rotatePlanes("F U F'U'F U F'U'F U F'U'L'U'L U L'U'L U L'U'L ");
+            fifthStepCounter += 15;
+            rotatesCounter += 15;
             count = 0;
             continue;
         }
         if (count < 4 && !isFifthStepCompleted()) {
             count++;
             rotatePlanes("U ");
+            fifthStepCounter++;
+            rotatesCounter++;
         } else if (count == 4 && !isFifthStepCompleted()) {
             shuffle(3);
             firstStep();
@@ -793,18 +1009,26 @@ void CubeRubik::fifthStep() {
             count = 0;
         }
     }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving fifth step\n\n");
+    }
 }
 
 void CubeRubik::sixthStep() {
     int count = 0;
-    for (int i = 0; i < 124 && !isSixthStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 124 && !isSixthStepCompleted(); i++) {
         if (UpPlane[2][0]->getUpColor() != UpCenter) {
             rotatePlanes("L D L'D'");
+            sixthStepCounter += 4;
+            rotatesCounter += 4;
             count = 0;
             continue;
         }
         if (count < 4 && !isSixthStepCompleted()) {
             rotatePlanes("U ");
+            sixthStepCounter++;
+            rotatesCounter++;
             count++;
         } else if (count == 4 && !isSixthStepCompleted()) {
             shuffle(3);
@@ -816,11 +1040,15 @@ void CubeRubik::sixthStep() {
             count = 0;
         }
     }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving sixth step\n\n");
+    }
 }
 
 void CubeRubik::seventhStep() {
     int count = 0;
-    for (int i = 0; i < 128 && !isSeventhStepCompleted(); i++) {
+    int i;
+    for (i = 0; i < 128 && !isSeventhStepCompleted(); i++) {
         bool frontAnglesCorrect = FrontPlane[0][0]->getFrontColor() == FrontCenter && FrontPlane[0][2]->getFrontColor() == FrontCenter;
         bool frontCenterCorrect = FrontPlane[0][1]->getFrontColor() == FrontCenter;
         bool rightAnglesCorrect = RightPlane[0][0]->getRightColor() == RightCenter && RightPlane[0][2]->getRightColor() == RightCenter;
@@ -831,47 +1059,65 @@ void CubeRubik::seventhStep() {
         bool leftCenterCorrect = LeftPlane[0][1]->getLeftColor() == LeftCenter;
         if (frontAnglesCorrect && frontCenterCorrect) {
             rotatePlanes("R U R'U'L'U'L U R U R'U'R U R'U'R U R'U'R U R'U'R U R'U'L'U'L U L'U'L U L'U'L U L'U'L U L'U'L U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (rightAnglesCorrect && rightCenterCorrect) {
             rotatePlanes("B U B'U'F'U'F U B U B'U'B U B'U'B U B'U'B U B'U'B U B'U'F'U'F U F'U'F U F'U'F U F'U'F U F'U'F U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (backAnglesCorrect && backCenterCorrect) {
             rotatePlanes("L U L'U'R'U'R U L U L'U'L U L'U'L U L'U'L U L'U'L U L'U'R'U'R U R'U'R U R'U'R U R'U'R U R'U'R U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (leftAnglesCorrect && leftCenterCorrect) {
             rotatePlanes("F U F'U'B'U'B U F U F'U'F U F'U'F U F'U'F U F'U'F U F'U'B'U'B U B'U'B U B'U'B U B'U'B U B'U'B U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (frontAnglesCorrect) {
             rotatePlanes("R U R'U'L'U'L U R U R'U'R U R'U'R U R'U'R U R'U'R U R'U'L'U'L U L'U'L U L'U'L U L'U'L U L'U'L U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (rightAnglesCorrect) {
             rotatePlanes("B U B'U'F'U'F U B U B'U'B U B'U'B U B'U'B U B'U'B U B'U'F'U'F U F'U'F U F'U'F U F'U'F U F'U'F U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (backAnglesCorrect) {
             rotatePlanes("L U L'U'R'U'R U L U L'U'L U L'U'L U L'U'L U L'U'L U L'U'R'U'R U R'U'R U R'U'R U R'U'R U R'U'R U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (leftAnglesCorrect) {
             rotatePlanes("F U F'U'B'U'B U F U F'U'F U F'U'F U F'U'F U F'U'F U F'U'B'U'B U B'U'B U B'U'B U B'U'B U B'U'B U ");
+            seventhStepCounter += 28;
+            rotatesCounter += 28;
             count = 0;
             continue;
         }
         if (count < 4 && !isSeventhStepCompleted()) {
             count++;
             rotatePlanes("U ");
+            seventhStepCounter++;
+            rotatesCounter++;
         } else if (count == 4 && !isSeventhStepCompleted()) {
             shuffle(3);
             firstStep();
@@ -882,6 +1128,9 @@ void CubeRubik::seventhStep() {
             sixthStep();
             count = 0;
         }
+    }
+    if (i > 127) {
+        throw logic_error("\n\nError occurred while solving seventh step\n\n");
     }
 }
 

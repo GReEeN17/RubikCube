@@ -29,7 +29,14 @@ private:
     Plane BackPlane;
 
     //Info of solving cube
-    int rotatesCounter;
+    int rotatesCounter = 0;
+    int firstStepCounter = 0;
+    int secondStepCounter = 0;
+    int thirdStepCounter = 0;
+    int fourthStepCounter = 0;
+    int fifthStepCounter = 0;
+    int sixthStepCounter = 0;
+    int seventhStepCounter = 0;
 
 public:
     //Constructor
@@ -38,7 +45,7 @@ public:
 
     //Getters of Info
 
-    [[nodiscard]] int getRotatesCounter() const;
+    void getInfoOfSolvation() const;
 
     //Implementation of the main function: generating, shuffling, solving etc.
 
@@ -54,6 +61,17 @@ public:
     //Shuffling Rubik's Cube
     void shuffle(int rotations = 30);
 
+    //Checking if Rubik;s Cube is already solved
+    bool isSolved();
+
+    //Solving Rubik's Cube
+    void solveCubeRubik();
+
+    //Functions for fun
+    void rightSolver();
+
+    void leftSolver();
+
 private:
 
     //Filling empty plane vectors
@@ -62,7 +80,7 @@ private:
     void initPlanes();
 
     //Checking if cube is correct
-    bool checkCubeIsCorrect() const;
+    [[nodiscard]] bool checkCubeIsCorrect() const;
 
     //Helping function for checking is Cube correct
     void increaseColor(unsigned char& yellow, unsigned char& white, unsigned char& orange, unsigned char& red,
@@ -89,7 +107,7 @@ private:
 
     //Checking if seventh step completed
     [[nodiscard]] bool isSeventhStepCompleted();
-public:
+
     //First step of solving Rubik's Cube
     void firstStep();
 
@@ -110,7 +128,6 @@ public:
 
     //Seventh step of solving Rubik's Cube
     void seventhStep();
-private:
 
     //Make numerous rotations
     void rotatePlanes(string rotations);

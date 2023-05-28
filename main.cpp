@@ -6,19 +6,8 @@ int main() {
     cubeRubik.printRubikCube();
     cubeRubik.shuffle();
     cubeRubik.printRubikCube();
-    cubeRubik.firstStep();
+    cubeRubik.solveCubeRubik();
     cubeRubik.printRubikCube();
-    cubeRubik.secondStep();
-    cubeRubik.printRubikCube();
-    cubeRubik.thirdStep();
-    cubeRubik.printRubikCube();
-    cubeRubik.fourthStep();
-    cubeRubik.printRubikCube();
-    cubeRubik.fifthStep();
-    cubeRubik.printRubikCube();
-    cubeRubik.sixthStep();
-    cubeRubik.printRubikCube();
-    cubeRubik.seventhStep();
-    cubeRubik.printRubikCube();
+    cubeRubik.getInfoOfSolvation();
     return 0;
 }
