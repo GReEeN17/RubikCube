@@ -38,6 +38,11 @@ private:
     int sixthStepCounter = 0;
     int seventhStepCounter = 0;
 
+    //3D visualization of Rubik's Cube
+    bool usedVisualCube[3][3][3];
+    //3 planes in each we have matrix 3 by 3
+
+
 public:
     //Constructor
 

@@ -1136,6 +1136,7 @@ void CubeRubik::seventhStep() {
 
 //Make numerous rotations
 void CubeRubik::rotatePlanes(string rotations) {
+    //Checking what plane should we rotate and in arguments we pass how we should rotate it(clockwise or not)
     for (int i = 0; i < rotations.size(); i += 2) {
         if (rotations[i] == 'U') {
             rotateUpPlane(rotations[i + 1] != '\'');

@@ -6,7 +6,6 @@
 #include <OpenGL/OpenGL.h>
 #include <GLUT/glut.h>
 #include <fstream>
-
 #define GLEW_STATIC
 using namespace std;
 
