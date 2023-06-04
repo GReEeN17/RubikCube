@@ -147,59 +147,60 @@ private:
     void rotatePlanes(string rotations);
 
     //Rotations of planes
+public:
     //Rotation of the up plane
     void rotateUpPlane(bool clockwise);
-
+private:
     //Rotation of the up plane clockwise
     void rotateUpPlaneClock(string& up00, string& up01, string& front00, string& front01, string& front02);
 
     //Rotation of the up plane not clockwise
     void rotateUpPlaneNotClock(string& up00, string& up01, string& front00, string& front01, string& front02);
 
-
+public:
     //Rotation of the down plane
     void rotateDownPlane(bool clockwise);
-
+private:
     //Rotation of the down plane clockwise
     void rotateDownPlaneClock(string& down00, string& down01, string& front20, string& front21, string& front22);
 
     //Rotation of the down plane not clockwise
     void rotateDownPlaneNotClock(string& down00, string& down01, string& front20, string& front21, string& front22);
 
-
+public:
     //Rotation of the left plane
     void rotateLeftPlane(bool clockwise);
-
+private:
     //Rotation of the left plane clockwise
     void rotateLeftPlaneClock(string& left00, string& left01, string& front00, string& front10, string& front20);
 
     //Rotation of the left plane not clockwise
     void rotateLeftPlaneNotClock(string& left00, string& left01, string& front00, string& front10, string& front20);
 
-
+public:
     //Rotation of the right plane
     void rotateRightPlane(bool clockwise);
-
+private:
     //Rotation of the right plane clockwise
     void rotateRightPlaneClock(string& right00, string& right01, string& front02, string& front12, string& front22);
 
     //Rotation of the right plane not clockwise
     void rotateRightPlaneNotClock(string& right00, string& right01, string& front02, string& front12, string& front22);
 
-
+public:
     //Rotation of the front plane
     void rotateFrontPlane(bool clockwise);
-
+private:
     //Rotation of the front plane clockwise
     void rotateFrontPlaneClock(string& front00, string& front01, string& up20, string& up21, string& up22);
 
     //Rotation of the front plane not clockwise
     void rotateFrontPlaneNotClock(string& front00, string& front01, string& up20, string& up21, string& up22);
 
-
+public:
     //Rotation of the back plane
     void rotateBackPlane(bool clockwise);
-
+private:
     //Rotation of the back plane clockwise
     void rotateBackPlaneClock(string& back00, string& back01, string& up00, string& up01, string& up02);
 
