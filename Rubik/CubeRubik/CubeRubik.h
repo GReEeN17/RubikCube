@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../CubePiece/CubePiece.h"
+#include "../CubeVisual/CubeVisual.h"
 using std::vector, std::istream, std::cin, std::cout, std::ostream;
 
 #define Plane vector<vector<CubePiece*>>
@@ -41,7 +42,15 @@ private:
     //3D visualization of Rubik's Cube
     bool usedVisualCube[3][3][3];
     //3 planes in each we have matrix 3 by 3
-
+    CubeVisual visualColors[3][3][3];
+    //temp used for rotating planes
+    CubeVisual temp[3][3];
+    //Rotate angle for each plane
+    int rotateAngle[6];
+    //Rubik's cube size in window
+    GLfloat sizeCube;
+    //Current plane for rotation
+    int currentPlane;
 
 public:
     //Constructor
