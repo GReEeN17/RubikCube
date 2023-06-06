@@ -6,6 +6,7 @@
 
 #include "../CubePiece/CubePiece.h"
 #include "../CubeVisual/CubeVisual.h"
+#include "../../Other/HelpingFunctions.h"
 using std::vector, std::istream, std::cin, std::cout, std::ostream;
 
 #define Plane vector<vector<CubePiece*>>
@@ -18,6 +19,12 @@ using std::vector, std::istream, std::cin, std::cout, std::ostream;
 
 class CubeRubik {
 private:
+
+    friend void specialKeys(int, int, int);
+    friend void display();
+    friend void init();
+    friend void processMenu(int);
+
     //Array for storage all cube pieces
     vector<vector<vector<CubePiece>>> array;
 
@@ -51,6 +58,9 @@ private:
     GLfloat sizeCube;
     //Current plane for rotation
     int currentPlane;
+    const GLfloat CUBE_SIZE = 12;
+    int xRot = 25, yRot = -45;
+    GLfloat translateZ = -35;
 
 public:
     //Constructor
@@ -60,6 +70,8 @@ public:
     //Getters of Info
 
     void getInfoOfSolvation() const;
+
+    int getCurrentPlane();
 
     //Implementation of the main function: generating, shuffling, solving etc.
 
@@ -85,6 +97,9 @@ public:
     void rightSolver();
 
     void leftSolver();
+
+//Rotate planes but visually
+void visualRotatePlanes(int plane, int angle, int degree);
 
 private:
 
@@ -148,7 +163,7 @@ private:
 
     //Rotations of planes
 public:
-    //Rotation of the up plane
+    //Rotation of the up plane, public because of key access
     void rotateUpPlane(bool clockwise);
 private:
     //Rotation of the up plane clockwise
@@ -206,6 +221,38 @@ private:
 
     //Rotation of the back plane not clockwise
     void rotateBackPlaneNotClock(string& back00, string& back01, string& up00, string& up01, string& up02);
+
+    //Visualisation of Rubik's Cube
+    void generateVisualCube(GLfloat size, unsigned int* colors);
+
+    //Function for right displaying Rubik's Cube in window
+    void display();
+
+    //Rotate plane for angle
+    void visualRotate(int plane, int angle);
+
+    //Functions for rotating each plane
+    void visualRotateUp();
+
+    void visualRotateDown();
+
+    void visualRotateFront();
+
+    void visualRotateBack();
+
+    void visualRotateLeft();
+
+    void visualRotateRight();
+
+public:
+    void visualRotatePlanes();
+
+private:
+    //Function for smooth rotation of Rubik's Cube
+    void timer(int degree, int);
+
+    //Drawing Rubik's Cube visually
+    void draw();
 };
 
 

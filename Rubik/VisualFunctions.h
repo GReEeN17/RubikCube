@@ -4,7 +4,9 @@
 #include "RubikConfig.h"
 #include "CubeRubik/CubeRubik.h"
 
-extern CubeRubik Cube
+extern CubeRubik Cube;
+
+unsigned int colors[6] = {green, blue, yellow, white, orange, red};
 
 void display() {
     glPushMatrix();
@@ -39,7 +41,7 @@ void init() {
     glEnable(GL_LIGHTING);
 
     // Cube initialization
-    Cube.setVisualCube(CUBE_SIZE, colors);
+    Cube.generateVisualCube(CUBE_SIZE, colors);
 }
 
 void specialKeys(int key, int, int) {
@@ -103,6 +105,13 @@ void specialKeys(int key, int, int) {
     }
 }
 
+void timer(int) {
+    glutTimerFunc(5, timer, 0);
+    if (Cube.getCurrentPlane() != -1)
+        Cube.visualRotatePlanes(Cube.getCurrentPlane(), ROTATE_START_VALUE, -1);
+
+    display();
+}
 
 void processMenu(int action);
 
