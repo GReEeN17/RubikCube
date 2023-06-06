@@ -24,7 +24,7 @@ void processMenu(int action) {
             case 5:
                 Cube.solveCubeRubik();
                 outputStream << "\n\nCube's unfolding after solving:\n\n";
-                Cube.printRubikCube(cout);
+                Cube.printRubikCube(outputStream);
                 break;
             case 6:
                 Cube.getInfoOfSolvation();

@@ -179,7 +179,7 @@ public:
             }
             outStream << "* | ";
             for (int j = 0; j < 3; j++) {
-                cout << BackPlane[i][j]->getBackColor() << " | ";
+                outStream << BackPlane[i][j]->getBackColor() << " | ";
             }
             outStream << "\n";
         }

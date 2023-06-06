@@ -1,0 +1,9 @@
+                | Y | Y | Y |
+                | Y | Y | Y |
+                | Y | Y | Y |
+| O | O | O | * | B | B | B | * | R | R | R | * | G | G | G |
+| O | O | O | * | B | B | B | * | R | R | R | * | G | G | G |
+| O | O | O | * | B | B | B | * | R | R | R | * | G | G | G |
+                | W | W | W |
+                | W | W | W |
+                | W | W | W |

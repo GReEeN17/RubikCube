@@ -9,8 +9,8 @@
 #define GLEW_STATIC
 using namespace std;
 
-ifstream inputStream("input.txt");
-ofstream outputStream("output.txt");
+ifstream inputStream("/Users/azelen/Desktop/Уник/2 семестр/RubikCube/input.txt");
+ofstream outputStream("/Users/azelen/Desktop/Уник/2 семестр/RubikCube/output.txt");
 
 enum Colors {
     yellow = 0xFFFF00,
