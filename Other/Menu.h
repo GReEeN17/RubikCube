@@ -24,7 +24,7 @@ void processMenu(int action) {
             case 5:
                 Cube.solveCubeRubik();
                 outputStream << "\n\nCube's unfolding after solving:\n\n";
-                Cube.printRubikCube(outputStream);
+                Cube.printRubikCube(cout);
                 break;
             case 6:
                 Cube.getInfoOfSolvation();
@@ -37,7 +37,7 @@ void processMenu(int action) {
                 break;
             case 9:
                 Cube.generateRubikCube();
-                //Cube.setVisualCube(CUBE_SIZE, colors);
+                Cube.generateVisualCube(CUBE_SIZE, colors);
                 break;
             default:
                 break;

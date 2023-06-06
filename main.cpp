@@ -1,4 +1,4 @@
-#include "Rubik/CubeRubik/CubeRubik.h"
+#include "Rubik/CubeRubik.h"
 #include "Rubik/VisualFunctions.h"
 #include "Other/Menu.h"
 
