@@ -1,3 +1,5 @@
+#ifndef RUBIKCUBE_CUBEVISUAL_CPP
+#define RUBIKCUBE_CUBEVISUAL_CPP
 #include "CubeVisual.h"
 
 void CubeVisual::rotateBackFront() {
@@ -103,3 +105,5 @@ void CubeVisual::draw(double x, double y, double z) {
     draw();
     glPopMatrix();
 }
+
+#endif //RUBIKCUBE_CUBEVISUAL_CPP

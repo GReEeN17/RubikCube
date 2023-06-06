@@ -58,9 +58,6 @@ private:
     GLfloat sizeCube;
     //Current plane for rotation
     int currentPlane;
-    const GLfloat CUBE_SIZE = 12;
-    int xRot = 25, yRot = -45;
-    GLfloat translateZ = -35;
 
 public:
     //Constructor
@@ -255,5 +252,6 @@ private:
     void draw();
 };
 
+static CubeRubik Cube;
 
 #endif //RUBIKCUBE_CUBERUBIK_H

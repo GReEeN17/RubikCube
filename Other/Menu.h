@@ -1,10 +1,6 @@
 #ifndef RUBIKCUBE_MENU_H
 #define RUBIKCUBE_MENU_H
-#include "../Rubik/RubikConfig.h"
-#include "../Rubik/CubeRubik/CubeRubik.h"
 #include <iostream>
-
-extern CubeRubik Cube;
 
 void processMenu(int action) {
     try {

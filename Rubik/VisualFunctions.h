@@ -1,10 +1,6 @@
 #ifndef RUBIKCUBE_VISUALFUNCTIONS_H
 #define RUBIKCUBE_VISUALFUNCTIONS_H
-
 #include "RubikConfig.h"
-#include "CubeRubik/CubeRubik.h"
-
-extern CubeRubik Cube;
 
 unsigned int colors[6] = {green, blue, yellow, white, orange, red};
 

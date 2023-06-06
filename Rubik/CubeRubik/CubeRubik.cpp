@@ -1,3 +1,5 @@
+#ifndef RUBIKCUBE_CUBERUBIK_CPP
+#define RUBIKCUBE_CUBERUBIK_CPP
 #include "CubeRubik.h"
 #include <iostream>
 #include <random>
@@ -55,42 +57,42 @@ void CubeRubik::readRubikCube(istream &inStream) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
             UpPlane[i][j]->setUpColor(color);
-            visualColors[j][2][i].setColor(3, getRGB(color));
+            visualColors[j][2][i].setColor(3, getRGBRubik(color));
         }
     }
     for (int i = 0, downColor = 2; i < 3; i++, downColor--) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
             DownPlane[i][j]->setDownColor(color);
-            visualColors[j][0][downColor].setColor(2, getRGB(color));
+            visualColors[j][0][downColor].setColor(2, getRGBRubik(color));
         }
     }
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
             FrontPlane[i][j]->setFrontColor(color);
-            visualColors[j][2 - i][2].setColor(0, getRGB(color));
+            visualColors[j][2 - i][2].setColor(0, getRGBRubik(color));
         }
     }
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
             BackPlane[i][j]->setBackColor(color);
-            visualColors[2 - j][2 - i][0].setColor(1, getRGB(color));
+            visualColors[2 - j][2 - i][0].setColor(1, getRGBRubik(color));
         }
     }
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
             LeftPlane[i][j]->setLeftColor(color);
-            visualColors[0][2 - i][j].setColor(4, getRGB(color));
+            visualColors[0][2 - i][j].setColor(4, getRGBRubik(color));
         }
     }
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             inStream >> color;
             RightPlane[i][j]->setRightColor(color);
-            visualColors[2][2 - i][2 - j].setColor(5, getRGB(color));
+            visualColors[2][2 - i][2 - j].setColor(5, getRGBRubik(color));
         }
     }
 }
@@ -1915,5 +1917,5 @@ void CubeRubik::draw() {
                 if (usedVisualCube[i][j][k])
                     visualColors[i][j][k].draw(sizeCube / 3 * i, sizeCube / 3 * j, sizeCube / 3 * k);
 }
-
+#endif //RUBIKCUBE_CUBERUBIK_CPP
 
