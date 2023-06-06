@@ -8,6 +8,7 @@
 #include "CubePiece/CubePiece.h"
 #include "CubeVisual.h"
 #include "../Other/HelpingFunctions.h"
+#include "RubikConfig.h"
 using std::vector, std::istream, std::cin, std::cout, std::ostream;
 using std::ostream, std::string, std::random_device, std::mt19937, std::uniform_int_distribution;
 using std::logic_error, std::exception;
@@ -1282,6 +1283,8 @@ private:
         LeftPlane[0][0]->setLeftColor(front00);
         LeftPlane[0][1]->setLeftColor(front01);
         LeftPlane[0][2]->setLeftColor(front02);
+
+        visualRotatePlanes(3, ROTATE_SPEED_STEP, -1);
     }
 
     //Rotation of the up plane not clockwise
@@ -1312,6 +1315,8 @@ private:
         RightPlane[0][0]->setRightColor(front00);
         RightPlane[0][1]->setRightColor(front01);
         RightPlane[0][2]->setRightColor(front02);
+
+        visualRotatePlanes(3, ROTATE_SPEED_STEP, 1);
     }
 
 public:
@@ -1362,6 +1367,8 @@ private:
         RightPlane[2][0]->setRightColor(front20);
         RightPlane[2][1]->setRightColor(front21);
         RightPlane[2][2]->setRightColor(front22);
+
+        visualRotatePlanes(2, ROTATE_SPEED_STEP, 1);
     }
 
     //Rotation of the down plane not clockwise
@@ -1392,6 +1399,8 @@ private:
         LeftPlane[2][0]->setLeftColor(front20);
         LeftPlane[2][1]->setLeftColor(front21);
         LeftPlane[2][2]->setLeftColor(front22);
+
+        visualRotatePlanes(2, ROTATE_SPEED_STEP, -1);
     }
 
 public:
@@ -1442,6 +1451,8 @@ private:
         DownPlane[0][0]->setDownColor(front00);
         DownPlane[1][0]->setDownColor(front10);
         DownPlane[2][0]->setDownColor(front20);
+
+        visualRotatePlanes(4, ROTATE_SPEED_STEP, 1);
     }
 
     //Rotation of the left plane not clockwise
@@ -1472,6 +1483,8 @@ private:
         UpPlane[0][0]->setUpColor(front00);
         UpPlane[1][0]->setUpColor(front10);
         UpPlane[2][0]->setUpColor(front20);
+
+        visualRotatePlanes(4, ROTATE_SPEED_STEP, -1);
     }
 
 public:
@@ -1522,6 +1535,8 @@ private:
         UpPlane[0][2]->setUpColor(front02);
         UpPlane[1][2]->setUpColor(front12);
         UpPlane[2][2]->setUpColor(front22);
+
+        visualRotatePlanes(5, ROTATE_SPEED_STEP, -1);
     }
 
     //Rotation of the right plane not clockwise
@@ -1552,6 +1567,8 @@ private:
         DownPlane[0][2]->setDownColor(front02);
         DownPlane[1][2]->setDownColor(front12);
         DownPlane[2][2]->setDownColor(front22);
+
+        visualRotatePlanes(5, ROTATE_SPEED_STEP, 1);
     }
 
 public:
@@ -1602,6 +1619,8 @@ private:
         RightPlane[0][0]->setRightColor(up20);
         RightPlane[1][0]->setRightColor(up21);
         RightPlane[2][0]->setRightColor(up22);
+
+        visualRotatePlanes(1, ROTATE_SPEED_STEP, -1);
     }
 
     //Rotation of the front plane not clockwise
@@ -1632,6 +1651,8 @@ private:
         LeftPlane[0][2]->setLeftColor(up22);
         LeftPlane[1][2]->setLeftColor(up21);
         LeftPlane[2][2]->setLeftColor(up20);
+
+        visualRotatePlanes(1, ROTATE_SPEED_STEP, 1);
     }
 
 public:
@@ -1682,6 +1703,7 @@ private:
         LeftPlane[0][0]->setLeftColor(up02);
         LeftPlane[1][0]->setLeftColor(up01);
         LeftPlane[2][0]->setLeftColor(up00);
+        visualRotatePlanes(0, ROTATE_SPEED_STEP, 1);
     }
 
     //Rotation of the back plane not clockwise
@@ -1712,6 +1734,8 @@ private:
         RightPlane[0][2]->setRightColor(up00);
         RightPlane[1][2]->setRightColor(up01);
         RightPlane[2][2]->setRightColor(up02);
+
+        visualRotatePlanes(0, ROTATE_SPEED_STEP, -1);
     }
 
     //Visualisation of Rubik's Cube
@@ -1719,40 +1743,40 @@ private:
         memset(rotateAngle, 0, sizeof(rotateAngle));
         this->sizeCube = size;
         currentPlane = -1;
-        //Up plane
+        //Front plane
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 visualColors[i][j][2].setColor(0, color[0]);
             }
         }
-        //Down plane
+        //Back plane
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 visualColors[i][j][0].setColor(1, color[1]);
             }
         }
-        //Front plane
+        //Down plane
         for (int i = 0; i < 3; i++) {
             for (int k = 0; k < 3; k++) {
-                visualColors[i][2][k].setColor(2, color[2]);
+                visualColors[i][0][k].setColor(2, color[2]);
             }
         }
-        //Back plane
+        //Up plane
         for (int i = 0; i < 3; i++) {
             for (int k = 0; k < 3; k++) {
-                visualColors[i][0][k].setColor(3, color[3]);
+                visualColors[i][2][k].setColor(3, color[3]);
             }
         }
         //Left plane
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
-                visualColors[2][j][k].setColor(4, color[4]);
+                visualColors[0][j][k].setColor(4, color[4]);
             }
         }
         //Right plane
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
-                visualColors[0][j][k].setColor(5, color[5]);
+                visualColors[2][j][k].setColor(5, color[5]);
             }
         }
         //Setting size for all the pieces in visual colors
@@ -1784,10 +1808,10 @@ private:
         if (degree == -1) degree = 3;
         for (int i = 0; i < degree; i++) {
             switch (plane) {
-                case 0:
+                case 1:
                     visualRotateFront();
                     break;
-                case 1:
+                case 0:
                     visualRotateBack();
                     break;
                 case 2:
@@ -1796,10 +1820,10 @@ private:
                 case 3:
                     visualRotateUp();
                     break;
-                case 4:
+                case 5:
                     visualRotateRight();
                     break;
-                case 5:
+                case 4:
                     visualRotateLeft();
                     break;
                 default:
@@ -1840,20 +1864,6 @@ private:
     void visualRotateFront() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                temp[j][2 - i] = visualColors[i][j][0];
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                temp[i][j].rotateBackFront();
-                visualColors[i][j][0] = temp[i][j];
-            }
-        }
-    }
-
-    void visualRotateBack() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
                 temp[j][2 - i] = visualColors[i][j][2];
             }
         }
@@ -1865,21 +1875,21 @@ private:
         }
     }
 
-    void visualRotateLeft() {
-        for (int j = 0; j < 3; j++) {
-            for (int k = 0; k < 3; k++) {
-                temp[k][2 - j] = visualColors[2][j][k];
+    void visualRotateBack() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                temp[j][2 - i] = visualColors[i][j][0];
             }
         }
-        for (int j = 0; j < 3; j++) {
-            for (int k = 0; k < 3; k++) {
-                temp[j][k].rotateLeftRight();
-                visualColors[2][j][k] = temp[j][k];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                temp[i][j].rotateBackFront();
+                visualColors[i][j][0] = temp[i][j];
             }
         }
     }
 
-    void visualRotateRight() {
+    void visualRotateLeft() {
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
                 temp[k][2 - j] = visualColors[0][j][k];
@@ -1889,6 +1899,20 @@ private:
             for (int k = 0; k < 3; k++) {
                 temp[j][k].rotateLeftRight();
                 visualColors[0][j][k] = temp[j][k];
+            }
+        }
+    }
+
+    void visualRotateRight() {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                temp[k][2 - j] = visualColors[2][j][k];
+            }
+        }
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                temp[j][k].rotateLeftRight();
+                visualColors[2][j][k] = temp[j][k];
             }
         }
     }
@@ -1941,8 +1965,8 @@ private:
 
             if (currentPlane == 0 || currentPlane == 1) {
                 int k = (currentPlane & 1) * 2;
-                for (int i = 0; i < 3; ++i)
-                    for (int j = 0; j < 3; ++j)
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
                         usedVisualCube[i][j][k] = false;
 
                 glTranslated(sizeCube / 2, sizeCube / 2, 0);   // translation to center
@@ -1950,42 +1974,42 @@ private:
                 glTranslated(-sizeCube / 2, -sizeCube / 2, 0); // translation to start position
 
                 // drawing
-                for (int i = 0; i < 3; ++i)
-                    for (int j = 0; j < 3; ++j)
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
                         visualColors[i][j][k].draw(sizeCube / 3 * i, sizeCube / 3 * j, sizeCube / 3 * k);
 
             } else if (currentPlane == 2 || currentPlane == 3) {
                 int j = (currentPlane & 1) * 2;
-                for (int i = 0; i < 3; ++i)
-                    for (int k = 0; k < 3; ++k)
+                for (int i = 0; i < 3; i++)
+                    for (int k = 0; k < 3; k++)
                         usedVisualCube[i][j][k] = false;
 
                 glTranslated(sizeCube / 2, 0, sizeCube / 2);
                 glRotatef(rotateAngle[currentPlane], 0, 1, 0);
                 glTranslated(-sizeCube / 2, 0, -sizeCube / 2);
-                for (int i = 0; i < 3; ++i)
-                    for (int k = 0; k < 3; ++k)
+                for (int i = 0; i < 3; i++)
+                    for (int k = 0; k < 3; k++)
                         visualColors[i][j][k].draw(sizeCube / 3 * i, sizeCube / 3 * j, sizeCube / 3 * k);
 
             } else if (currentPlane == 4 || currentPlane == 5) {
                 int i = (currentPlane & 1) * 2;
-                for (int j = 0; j < 3; ++j)
-                    for (int k = 0; k < 3; ++k)
+                for (int j = 0; j < 3; j++)
+                    for (int k = 0; k < 3; k++)
                         usedVisualCube[i][j][k] = false;
 
                 glTranslated(0, sizeCube / 2, sizeCube / 2);
                 glRotatef(rotateAngle[currentPlane], 1, 0, 0);
                 glTranslated(0, -sizeCube / 2, -sizeCube / 2);
-                for (int j = 0; j < 3; ++j)
-                    for (int k = 0; k < 3; ++k)
+                for (int j = 0; j < 3; j++)
+                    for (int k = 0; k < 3; k++)
                         visualColors[i][j][k].draw(sizeCube / 3 * i, sizeCube / 3 * j, sizeCube / 3 * k);
             }
             glPopMatrix();
         }
 
-        for (int i = 0; i < 3; ++i)
-            for (int j = 0; j < 3; ++j)
-                for (int k = 0; k < 3; ++k)
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                for (int k = 0; k < 3; k++)
                     if (usedVisualCube[i][j][k])
                         visualColors[i][j][k].draw(sizeCube / 3 * i, sizeCube / 3 * j, sizeCube / 3 * k);
     }

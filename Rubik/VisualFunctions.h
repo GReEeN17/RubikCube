@@ -2,7 +2,7 @@
 #define RUBIKCUBE_VISUALFUNCTIONS_H
 #include "RubikConfig.h"
 
-unsigned int colors[6] = {green, blue, yellow, white, orange, red};
+unsigned int colors[6] = {blue, green, white, yellow, orange, red};
 
 void display() {
     glPushMatrix();

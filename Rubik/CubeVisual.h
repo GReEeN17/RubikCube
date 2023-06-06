@@ -62,7 +62,7 @@ public:
         glPushMatrix();
         glBegin(GL_QUADS);
 
-        //Up plane
+        //Front plane
         glColor3ubv(getRGB(0));
         glNormal3f(0, 0, 1);
         glVertex3f(0, 0, sizeEdge);
@@ -70,7 +70,7 @@ public:
         glVertex3f(sizeEdge, sizeEdge, sizeEdge);
         glVertex3f(sizeEdge, 0, sizeEdge);
 
-        //Down plane
+        //Back plane
         glColor3ubv(getRGB(1));
         glNormal3f(0, 0, -1);
         glVertex3f(0, 0, 0);
@@ -78,15 +78,15 @@ public:
         glVertex3f(sizeEdge, sizeEdge, 0);
         glVertex3f(sizeEdge, 0, 0);
 
-        //Front plane
+        //Down plane
         glColor3ubv(getRGB(2));
         glNormal3f(0, -1, 0);
         glVertex3f(0, 0, 0);
-        glVertex3f(0, sizeEdge, 0);
-        glVertex3f(sizeEdge, sizeEdge, 0);
+        glVertex3f(0, 0, sizeEdge);
+        glVertex3f(sizeEdge, 0, sizeEdge);
         glVertex3f(sizeEdge, 0, 0);
 
-        //Back plane
+        //Up plane
         glColor3ubv(getRGB(3));
         glNormal3f(0, 1, 0);
         glVertex3f(0, sizeEdge, 0);
@@ -111,7 +111,7 @@ public:
         glVertex3f(sizeEdge, sizeEdge, 0);
 
         glEnd();
-        //Return to the pld coordinates system
+        //Return to the old coordinates system
         glPopMatrix();
     }
 
