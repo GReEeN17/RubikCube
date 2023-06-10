@@ -156,7 +156,6 @@ public:
 
     //Printing RubikCube in console or file
     void printRubikCube(ostream &outStream = cout) const {
-        outStream << "\n\nРазвёртка Кубика Рубика:\n\n";
         for (int i = 0; i < 3; i++) {
             outStream << "\t\t| ";
             for (int j = 0; j < 3; j++) {
